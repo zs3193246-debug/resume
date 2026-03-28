@@ -1547,7 +1547,7 @@
     if (typeof QRCode !== 'undefined') {
   try {
     new QRCode(qrBox, {
-      text: url.toString(),   // ✅ FIXED
+     text: "https://yourdomain.com/resume.pdf"
       width: 110,
       height: 110,
       colorDark: '#0b2540',
@@ -1560,7 +1560,7 @@
   }
 }
 
-text: "https://yourdomain.com/resume.pdf"
+
   </script>
 </body>
 </html>
