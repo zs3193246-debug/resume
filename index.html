@@ -1,3109 +1,1579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <title>Resume Builder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder — Modern Templates</title>
+    <!-- Fonts & Icons (Poppins via Google Fonts, Font Awesome for social/hamburger) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
-  <style>
-    /* All your original styles remain exactly the same */
-    *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
-    body{background:#f4f7fb;color:#0b2540}
 
-    /* TOPBAR */
-    .topbar{
-      background:linear-gradient(135deg,#0b2b52,#123b70);
-      color:#fff;padding:16px 22px;
-      display:flex;align-items:center;justify-content:space-between;
-      position:sticky;top:0;z-index:50;
-      box-shadow:0 12px 30px rgba(0,0,0,.14);
-    }
-    .brand{font-size:22px;font-weight:900;letter-spacing:.2px}
-    .brand span{color:#7ee0ff}
-    .top-actions{display:flex;gap:10px;align-items:center}
-    .btn{
-      border:none;border-radius:999px;
-      padding:10px 14px;font-weight:900;cursor:pointer;
-      transition:.2s;
-      white-space:nowrap;
-    }
-    .btn.primary{background:#2f6bff;color:#fff}
-    .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
-    .btn.light{background:#fff;color:#123b70;border:1px solid #d6e3f3}
-    .btn.danger{background:#ff3b3b;color:#fff}
-    .btn:hover{transform:translateY(-1px)}
-    .btn:active{transform:scale(.98)}
-
-    /* WRAP */
-    .wrap{max-width:1200px;margin:18px auto;padding:0 14px}
-    .view{display:none}
-    .view.active{display:block}
-
-    /* FILTER */
-    .filter-wrap{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px}
-    .filter-btn{
-      border:1px solid #d6e3f3;background:#fff;color:#123b70;
-      padding:10px 14px;border-radius:999px;font-weight:900;
-      cursor:pointer;transition:.2s;
-    }
-    .filter-btn.active{background:#123b70;color:#fff;border-color:#123b70}
-
-    /* GRID */
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(4,1fr)}
-    @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:520px){.grid{grid-template-columns:1fr}}
-
-    .card{
-      background:#fff;border:1px solid #e5eef9;border-radius:14px;
-      overflow:hidden;position:relative;
-      box-shadow:0 10px 30px rgba(10,30,60,.06);
-    }
-    .badge{
-      position:absolute;top:10px;left:10px;
-      background:#0b2b52;color:#fff;
-      font-size:12px;font-weight:900;
-      padding:6px 10px;border-radius:999px;z-index:2;
-      text-transform:uppercase;
-    }
-    .thumb{background:#eef4ff;position:relative}
-    .thumb img{width:100%;height:auto;display:block}
-    .thumb .hover-text{
-      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-      background:rgba(11,43,82,.55);color:#fff;font-weight:1000;
-      opacity:0;transition:.2s;font-size:14px;letter-spacing:.3px;
-    }
-    .card:hover .hover-text{opacity:1}
-
-    .card-body{padding:14px}
-    .card-body h3{font-size:18px;margin-bottom:6px}
-    .card-body p{font-size:13px;opacity:.8;line-height:1.4;margin-bottom:12px}
-    .actions{display:flex;gap:10px}
-    .actions .btn{flex:1}
-    .actions .btn.primary{background:#2f6bff;color:#fff}
-    .actions .btn.light{background:#fff;color:#2f6bff;border:1px solid #cfe0ff}
-
-    /* EDITOR */
-    .editor-shell{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
-    @media(max-width:980px){.editor-shell{grid-template-columns:1fr}}
-
-    .panel{
-      background:#fff;border:1px solid #e5eef9;border-radius:14px;
-      box-shadow:0 10px 30px rgba(10,30,60,.06);
-      overflow:hidden;
-    }
-    .panel .phead{
-      padding:14px 14px;border-bottom:1px solid #eef2f7;
-      display:flex;justify-content:space-between;align-items:center;gap:10px;
-    }
-    .panel .phead .title{font-weight:1000}
-    .panel .pbody{padding:14px}
-    .mini{border:1px solid #e5eef9;border-radius:12px;overflow:hidden;background:#f7faff}
-    .mini img{width:100%;height:auto;display:block}
-    .hint{font-size:12px;opacity:.75;line-height:1.5;margin-top:10px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .row .btn{flex:1;min-width:140px;border-radius:12px}
-
-    /* Small form boxes */
-    .box{border:1px solid #e5eef9;border-radius:12px;padding:12px;margin-top:12px;background:#fbfdff}
-    .box h5{font-size:13px;margin-bottom:8px}
-    .field{display:flex;gap:8px;align-items:center}
-    .input{
-      width:100%;border:1px solid #d6e3f3;border-radius:10px;padding:10px 12px;
-      outline:none;background:#fff;font-weight:700;color:#0b2540;
-    }
-    .sub{font-size:12px;opacity:.75;margin-top:6px;line-height:1.4}
-    .skill-list{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-    .skill-item{
-      display:inline-flex;align-items:center;gap:6px;
-      border:1px solid #d8e6ff;background:#f3f7ff;color:#0b2b52;
-      border-radius:999px;padding:8px 10px;font-size:12px;font-weight:1000;
-    }
-    .xbtn{
-      border:none;cursor:pointer;
-      background:rgba(255,59,59,.15);color:#ff3b3b;
-      font-weight:1000;border-radius:999px;padding:2px 7px;
-    }
-
-    /* PAPER */
-    .paper{
-      width:210mm;
-      min-height:297mm;
-      margin:0 auto 30px auto;
-      background:#fff;
-      border-radius:14px;
-      border:1px solid #dbe7f7;
-      box-shadow:0 25px 70px rgba(10,30,60,.12);
-      overflow:hidden;
-    }
-
-    /* Inline edit */
-    [contenteditable="true"]{outline:none}
-    [contenteditable="true"]:focus{
-      box-shadow:inset 0 0 0 2px rgba(47,107,255,.25);
-      border-radius:6px;
-    }
-    .r-title{font-weight:1000;letter-spacing:.2px}
-    .r-small{font-size:12px;opacity:.85}
-    .r-sec{margin-top:14px;break-inside:avoid;page-break-inside:avoid}
-    .r-sec h4{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-bottom:8px}
-    .r-line{height:1px;background:#e9eef6;margin:10px 0}
-
-    /* ========= THEME VARIABLES ========= */
-    .resume-theme{
-      --accent:#2f6bff;
-      --accent2:#123b70;
-      --chipBg:#f3f7ff;
-      --chipBorder:#d8e6ff;
-      --sideBg1:#d9ccff;
-      --sideBg2:#f4f0ff;
-      --paperBg:#ffffff;
-      --text:#0b2540;
-    }
-    .resume-theme{background:var(--paperBg);color:var(--text)}
-
-    /* ========= TEMPLATE LAYOUTS ========= */
-
-    /* 1) MODERN SIDEBAR */
-    .t-modern{display:grid;grid-template-columns:270px 1fr}
-    .t-modern .side{background:linear-gradient(180deg,var(--sideBg1),var(--sideBg2));padding:22px 18px}
-    .t-modern .main{padding:24px 24px 28px 24px}
-    .avatar{
-      width:78px;height:78px;border-radius:16px;
-      background:#fff;border:1px solid rgba(0,0,0,.08);
-      display:flex;align-items:center;justify-content:center;
-      overflow:hidden;margin:0 0 12px 0;
-    }
-    .avatar img{width:100%;height:100%;object-fit:cover}
-    .pill{
-      display:inline-block;background:#fff;border:1px solid rgba(0,0,0,.10);
-      padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;
-      margin:6px 6px 0 0;
-    }
-
-    /* 2) EXECUTIVE (TOP BAR) */
-    .t-exec{padding:24px}
-    .t-exec .top{
-      display:flex;gap:14px;align-items:center;justify-content:space-between;
-      border-bottom:3px solid rgba(0,0,0,.08);padding-bottom:12px;
-    }
-    .t-exec .top .who{display:flex;gap:12px;align-items:center}
-    .t-exec .top .who .p{width:56px;height:56px;border-radius:999px;overflow:hidden;border:1px solid rgba(0,0,0,.10)}
-    .t-exec .top .who .p img{width:100%;height:100%;object-fit:cover}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .chip{
-      border:1px solid var(--chipBorder);
-      background:var(--chipBg);
-      color:var(--accent2);
-      border-radius:999px;padding:6px 10px;font-size:12px;font-weight:1000
-    }
-
-    /* 3) CREATIVE (ACCENT BAR) */
-    .t-creative{padding:26px;position:relative}
-    .t-creative::before{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(135deg,rgba(47,107,255,.10),transparent 55%);
-      pointer-events:none;
-    }
-    .t-creative .top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;position:relative;z-index:2}
-    .t-creative .photo{width:70px;height:70px;border-radius:20px;overflow:hidden;border:2px solid rgba(0,0,0,.08)}
-    .t-creative .photo img{width:100%;height:100%;object-fit:cover}
-    .t-creative .bar{height:8px;background:var(--accent);border-radius:999px;margin-top:10px;opacity:.95}
-
-    /* 4) MINIMAL TWO COLUMN */
-    .t-mini{padding:26px}
-    .t-mini .head{border-bottom:2px solid rgba(0,0,0,.08);padding-bottom:10px}
-    .t-mini .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media(max-width:700px){.t-modern{grid-template-columns:1fr}.t-mini .two{grid-template-columns:1fr}}
-
-    /* 5) CLASSIC LEFT LINE */
-    .t-classic{padding:26px}
-    .t-classic .headline{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
-      border-left:8px solid var(--accent);padding-left:12px;
-      padding-bottom:10px;border-bottom:2px solid rgba(0,0,0,.08);
-    }
-
-    /* 6) DARK SIDEBAR */
-    .t-dark{display:grid;grid-template-columns:280px 1fr}
-    .t-dark .side{
-      background:linear-gradient(180deg,var(--accent2),#0b2b52);
-      color:#fff;padding:22px 18px
-    }
-    .t-dark .side .r-small{opacity:.92}
-    .t-dark .main{padding:24px 24px 28px 24px}
-    .t-dark .pill{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:#fff}
-
-    /* 7) TIMELINE (PROJECT STYLE) */
-    .t-timeline{padding:26px}
-    .timeline{
-      margin-top:10px;border-left:2px solid rgba(0,0,0,.10);padding-left:14px
-    }
-    .dot{
-      width:10px;height:10px;border-radius:999px;background:var(--accent);
-      display:inline-block;margin-left:-19px;margin-right:10px;position:relative;top:-1px
-    }
-
-    /* 8) BORDERED (ATS CLEAN) */
-    .t-bordered{padding:26px}
-    .t-bordered .boxline{
-      border:2px solid rgba(0,0,0,.10);border-radius:12px;padding:14px;margin-top:12px
-    }
-
-    @media(max-width:980px){
-      .paper{
-        width:100%;
-        min-height:auto;
-      }
-    }
-
-    /* PRINT */
-    @page{
-      size:A4;
-      margin:0;
-    }
-
-    @media print{
-      html,body{
-        width:210mm;
-        height:297mm;
-        background:#fff;
-      }
-
-      *{
-        -webkit-print-color-adjust:exact !important;
-        print-color-adjust:exact !important;
-      }
-
-      .topbar,.wrap .panel{
-        display:none !important;
-      }
-
-      .wrap{
-        max-width:none;
-        margin:0;
-        padding:0;
-      }
-
-      .paper{
-        width:210mm !important;
-        min-height:297mm !important;
-        margin:0 !important;
-        border:none !important;
-        border-radius:0 !important;
-        box-shadow:none !important;
-        overflow:hidden !important;
-      }
-      /* Show QR container only in print */
-      .qr-print-only {
-        display: block !important;
-      }
-    }
-
-    .thumb{
-      background:#eef4ff;
-      position:relative;
-      aspect-ratio: 3 / 4;
-      overflow:hidden;
-    }
-
-    .thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .thumb .hover-text{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(11,43,82,.55);
-      color:#fff;
-      font-weight:1000;
-      opacity:0;
-      transition:.25s;
-      font-size:16px;
-      letter-spacing:.3px;
-      pointer-events:none;
-    }
-
-    .thumb:hover .hover-text{
-      opacity:1;
-    }
-
-    @page { margin: 12mm; }
-    @media print{
-      body{background:#fff}
-      *{-webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;}
-      .topbar,.wrap .panel{display:none !important}
-      .wrap{max-width:none;margin:0;padding:0}
-      .paper{box-shadow:none;border:none;border-radius:0}
-    }
-
-    /* QR container styling - hidden on screen, visible in print */
-    .qr-print-only {
-      display: none;
-      margin-top: 24px;
-      padding: 12px 0 0 0;
-      text-align: center;
-      border-top: 1px solid #e2e8f0;
-    }
-    .qr-print-only .qr-label {
-      font-size: 10px;
-      margin-top: 6px;
-      color: #4a5568;
-      letter-spacing: 0.3px;
-    }
-    #dynamicQRBox canvas,
-    #dynamicQRBox img {
-      margin: 0 auto;
-    }
-  </style>
-</head>
-<body>
-
-  <header class="topbar">
-    <div class="brand">Resume<span>Builder</span></div>
-    <div class="top-actions">
-      <button class="btn ghost" id="backBtn" style="display:none;">← Back</button>
-      <button class="btn ghost" id="randomBtn" style="display:none;">Random Details</button>
-      <button class="btn primary" id="pdfBtn" style="display:none;">Download PDF</button>
-    </div>
-  </header>
-
-  <main class="wrap">
-
-    <!-- VIEW: TEMPLATES -->
-    <section class="view active" id="templatesView">
-      <div class="filter-wrap">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="modern">Modern</button>
-        <button class="filter-btn" data-filter="professional">Professional</button>
-        <button class="filter-btn" data-filter="creative">Creative</button>
-        <button class="filter-btn" data-filter="simple">Simple</button>
-      </div>
-
-      <!-- cards auto-generate here -->
-      <section class="grid" id="templatesGrid"></section>
-    </section>
-
-    <!-- VIEW: EDITOR -->
-    <section class="view" id="editorView">
-      <div class="editor-shell">
-
-        <aside class="panel">
-          <div class="phead">
-            <div class="title" id="chosenName">Template</div>
-            <span class="r-small" id="chosenTag">Editing</span>
-          </div>
-
-          <div class="pbody">
-            <div class="mini">
-              <img id="chosenImg" src="" alt="Template preview">
-            </div>
-
-            <div class="hint">
-              ✅ Text par click karke edit.<br/>
-              🧠 Skills add/delete panel se.<br/>
-              🖼️ Photo upload -> resume + PDF me aayega. Nahi to auto remove.<br/>
-              💾 Auto-save ON (refresh ke baad bhi data rahega).<br/>
-              📄 Download PDF = browser print (Save as PDF).
-            </div>
-
-            <!-- PHOTO -->
-            <div class="box">
-              <h5>Profile Photo</h5>
-              <div class="field">
-                <input class="input" id="photoInput" type="file" accept="image/*" />
-              </div>
-              <div class="row" style="margin-top:10px">
-                <button class="btn light" id="removePhotoBtn" type="button">Remove Photo</button>
-                <button class="btn ghost" id="clearFileBtn" type="button" style="border:1px solid #d6e3f3;color:#123b70;background:#fff">Clear File</button>
-              </div>
-              <div class="sub">Tip: Upload kiya to PDF me photo bhi save hoga.</div>
-            </div>
-
-            <!-- SKILLS -->
-            <div class="box">
-              <h5>Skills (Add / Delete)</h5>
-              <div class="field">
-                <input class="input" id="skillInput" placeholder="e.g. React, Node.js, Excel" />
-                <button class="btn primary" id="addSkillBtn" type="button">Add</button>
-              </div>
-              <div class="skill-list" id="skillList"></div>
-              <div class="sub">Delete ke liye chip ke (x) par click karo.</div>
-            </div>
-
-            <div class="row">
-              <button class="btn light" id="changeTemplateBtn">Change Template</button>
-              <button class="btn primary" id="printBtn2">Download PDF</button>
-            </div>
-          </div>
-        </aside>
-
-        <section class="paper" id="resumeRoot"></section>
-      </div>
-    </section>
-
-  </main>
-
-  <script>
-    /* =========================
-       ORIGINAL CODE - UNCHANGED (preserved)
-       Only QR code print functionality added at the end.
-    ========================= */
-    const templatesView = document.getElementById("templatesView");
-    const editorView = document.getElementById("editorView");
-
-    const backBtn = document.getElementById("backBtn");
-    const randomBtn = document.getElementById("randomBtn");
-    const pdfBtn = document.getElementById("pdfBtn");
-
-    const templatesGrid = document.getElementById("templatesGrid");
-    const filterBtns = document.querySelectorAll(".filter-btn");
-
-    const resumeRoot = document.getElementById("resumeRoot");
-    const chosenName = document.getElementById("chosenName");
-    const chosenTag = document.getElementById("chosenTag");
-    const chosenImg = document.getElementById("chosenImg");
-
-    const changeTemplateBtn = document.getElementById("changeTemplateBtn");
-    const printBtn2 = document.getElementById("printBtn2");
-
-    const skillInput = document.getElementById("skillInput");
-    const addSkillBtn = document.getElementById("addSkillBtn");
-    const skillList = document.getElementById("skillList");
-
-    const photoInput = document.getElementById("photoInput");
-    const removePhotoBtn = document.getElementById("removePhotoBtn");
-    const clearFileBtn = document.getElementById("clearFileBtn");
-
-    /* =========================
-       STORAGE
-    ========================= */
-    const LS_KEY = "resume_builder_v2_state";
-
-    function saveState(){
-      try{
-        const payload = { currentTemplateId: currentTemplate?.id || null, model };
-        localStorage.setItem(LS_KEY, JSON.stringify(payload));
-      }catch(err){}
-    }
-
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(LS_KEY);
-        if(!raw) return null;
-        return JSON.parse(raw);
-      }catch(err){
-        return null;
-      }
-    }
-
-    /* =========================
-       TEMPLATES (52+)
-    ========================= */
-    const palettes = [
-      {accent:"#2f6bff", accent2:"#123b70", sideBg1:"#d9ccff", sideBg2:"#f4f0ff", chipBg:"#f3f7ff", chipBorder:"#d8e6ff"},
-      {accent:"#ff5c7a", accent2:"#5a1630", sideBg1:"#ffd6df", sideBg2:"#fff0f4", chipBg:"#fff1f4", chipBorder:"#ffd1da"},
-      {accent:"#00b894", accent2:"#0b3d36", sideBg1:"#c7fff2", sideBg2:"#effffb", chipBg:"#eafff9", chipBorder:"#bff3e6"},
-      {accent:"#f39c12", accent2:"#5a3c00", sideBg1:"#ffe6bf", sideBg2:"#fff6e6", chipBg:"#fff3df", chipBorder:"#ffe0ad"},
-      {accent:"#6c5ce7", accent2:"#2d2759", sideBg1:"#ded9ff", sideBg2:"#f3f1ff", chipBg:"#f1efff", chipBorder:"#d8d3ff"},
-      {accent:"#0984e3", accent2:"#0b2b52", sideBg1:"#cfe8ff", sideBg2:"#f0f8ff", chipBg:"#eaf5ff", chipBorder:"#cfe8ff"},
-      {accent:"#e17055", accent2:"#4b1f14", sideBg1:"#ffd9d0", sideBg2:"#fff1ee", chipBg:"#fff1ee", chipBorder:"#ffd3c7"},
-      {accent:"#2d3436", accent2:"#111", sideBg1:"#dfe6e9", sideBg2:"#f7f9fa", chipBg:"#f1f3f4", chipBorder:"#dfe6e9"},
-      {accent:"#00cec9", accent2:"#0b3c3b", sideBg1:"#c8fffe", sideBg2:"#efffff", chipBg:"#eaffff", chipBorder:"#bff7f6"},
-      {accent:"#fd79a8", accent2:"#53152f", sideBg1:"#ffe0ea", sideBg2:"#fff2f7", chipBg:"#fff2f7", chipBorder:"#ffd2e1"}
-    ];
-
-    const layouts = [
-      {key:"modern", label:"Modern", category:"modern", renderer: renderModern},
-      {key:"exec", label:"Professional", category:"professional", renderer: renderExecutive},
-      {key:"creative", label:"Creative", category:"creative", renderer: renderCreative},
-      {key:"mini", label:"Simple", category:"simple", renderer: renderMinimalist},
-      {key:"classic", label:"Professional", category:"professional", renderer: renderClassic},
-      {key:"dark", label:"Modern", category:"modern", renderer: renderDarkSidebar},
-      {key:"timeline", label:"Creative", category:"creative", renderer: renderTimeline},
-      {key:"bordered", label:"Simple", category:"simple", renderer: renderBordered}
-    ];
-
-    const namePool = [
-      "Aurora", "Nimbus", "Atlas", "Zenith", "Nova", "Prism", "Pulse", "Vertex", "Sage", "Orbit",
-      "Cobalt", "Bloom", "Horizon", "Vivid", "Echo", "Glide", "Stone", "Cedar", "Ivy", "Ember",
-      "Slate", "Crown", "Metro", "Crisp", "Aster", "Breeze", "Summit", "Lumen", "Fjord", "Coral",
-      "Dune", "Mosaic", "Kite", "Quill", "Pearl", "Ripple", "Drift", "Mellow", "Roam", "Pioneer",
-      "Stellar", "Fusion", "Mint", "Velvet", "Canyon", "Harbor", "Spruce", "Pilot", "Vista", "Saffron",
-      "Citrus", "Onyx", "Quartz", "Marble", "Raven", "Opal", "Lagoon", "Comet", "Cinder", "Basil"
-    ];
-
-    function buildTemplates(count=52){
-      const out = [];
-      for(let i=0;i<count;i++){
-        const pal = palettes[i % palettes.length];
-        const lay = layouts[i % layouts.length];
-        const baseName = namePool[i] || ("Template " + (i+1));
-        const fullName = `${baseName} ${lay.key.toUpperCase()}`;
-        const id = `${lay.key}-${String(i+1).padStart(2,"0")}`;
-        const category = lay.category;
-        const tag = lay.label;
-        const img = makePreviewImage(fullName, pal.accent);
-        out.push({
-          id, name: fullName, category, tag, img,
-          theme: pal, rendererKey: lay.key, render: lay.renderer
-        });
-      }
-      return out;
-    }
-
-    function makePreviewImage(text, color){
-      const safe = encodeURIComponent(text);
-      const bg = encodeURIComponent(color.replace("#",""));
-      return `https://placehold.co/600x800/${bg}/ffffff?text=${safe}`;
-    }
-
-    const TEMPLATES = buildTemplates(52);
-    let currentTemplate = null;
-    let model = makeRandomResume();
-
-    /* =========================
-       RENDER FUNCTIONS (fully preserved from your original)
-    ========================= */
-    function renderModern(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-modern" id="resumeThemeRoot">
-          <aside class="side">
-            ${photoHTML("modern")}
-            <div class="r-title" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-            <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            <div class="r-line"></div>
-            <div class="r-small" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            <div class="r-sec">
-              <h4>Skills</h4>
-              <div>
-                ${data.skills.map((s,i)=>`<span class="pill" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-              </div>
-            </div>
-            <div class="r-sec">
-              <h4>Languages</h4>
-              <div class="r-small" contenteditable="true" data-bind="languages">${esc(data.languages.join(" • "))}</div>
-            </div>
-          </aside>
-          <section class="main">
-            <div class="r-sec">
-              <h4>Summary</h4>
-              <div class="r-small" style="font-size:13px;line-height:1.7" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-            </div>
-            <div class="r-sec">
-              <h4>Experience</h4>
-              ${data.experience.map((x,ei)=>`
-                <div style="margin-bottom:10px">
-                  <div style="display:flex;justify-content:space-between;gap:10px">
-                    <div style="font-weight:950" contenteditable="true" data-bind="exp.${ei}.title">${esc(x.title)}</div>
-                    <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                  </div>
-                  <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="exp.${ei}.company">${esc(x.company)}</div>
-                  <ul style="margin:6px 0 0 18px;line-height:1.7">
-                    ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
-            </div>
-            <div class="r-sec">
-              <h4>Education</h4>
-              ${data.education.map((ed,di)=>`
-                <div style="margin-bottom:8px">
-                  <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-                </div>
-              `).join("")}
-            </div>
-          </section>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderExecutive(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-exec" id="resumeThemeRoot">
-          <div class="top">
-            <div class="who">
-              ${photoHTML("exec")}
-              <div>
-                <div class="r-title" style="font-size:28px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-                <div class="r-small">
-                  <span contenteditable="true" data-bind="role">${esc(data.role)}</span>
-                  •
-                  <span contenteditable="true" data-bind="location">${esc(data.location)}</span>
-                </div>
-                <div class="chips">
-                  <span class="chip" contenteditable="true" data-bind="contact">${esc(data.contact)}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Professional Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Core Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Experience</h4>
-            ${data.experience.map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="display:flex;justify-content:space-between;gap:10px">
-                  <div style="font-weight:950" contenteditable="true">
-                    <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                    —
-                    <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                  </div>
-                  <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                </div>
-                <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderCreative(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-creative" id="resumeThemeRoot">
-          <div class="top">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-              <div class="bar"></div>
-              <div class="r-small" style="margin-top:10px" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-            ${photoHTML("creative")}
-          </div>
-          <div class="r-sec">
-            <h4>Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Projects / Work</h4>
-            ${data.experience.slice(0,2).map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="font-weight:950" contenteditable="true" data-bind="exp.${ei}.title">${esc(x.title)}</div>
-                <div class="r-small">
-                  <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                  •
-                  <span data-bind="exp.${ei}.time" contenteditable="true">${esc(x.time)}</span>
-                </div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="r-sec">
-            <h4>Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderMinimalist(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-mini" id="resumeThemeRoot">
-          <div class="head">
-            <div class="r-title" style="font-size:28px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-            <div class="r-small" style="margin-top:4px">
-              <span contenteditable="true" data-bind="role">${esc(data.role)}</span>
-              •
-              <span contenteditable="true" data-bind="location">${esc(data.location)}</span>
-            </div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-          </div>
-          <div class="r-sec two">
-            <div>
-              <h4>Summary</h4>
-              <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-              <div class="r-sec">
-                <h4>Experience</h4>
-                ${data.experience.map((x,ei)=>`
-                  <div style="margin-bottom:10px">
-                    <div style="font-weight:950" contenteditable="true">
-                      <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                      —
-                      <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                    </div>
-                    <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                    <ul style="margin:6px 0 0 18px;line-height:1.75">
-                      ${x.points.slice(0,2).map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                    </ul>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-            <div>
-              <h4>Skills</h4>
-              <div class="chips">
-                ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-              </div>
-              <div class="r-sec">
-                <h4>Education</h4>
-                ${data.education.map((ed,di)=>`
-                  <div style="margin-bottom:8px">
-                    <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                    <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                    <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-                  </div>
-                `).join("")}
-              </div>
-              <div class="r-sec">
-                <h4>Languages</h4>
-                <div class="r-small" contenteditable="true" data-bind="languages">${esc(data.languages.join(" • "))}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderClassic(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-classic" id="resumeThemeRoot">
-          <div class="headline">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            </div>
-            <div class="r-small" style="text-align:right">
-              <div contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Experience</h4>
-            ${data.experience.map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="font-weight:950" contenteditable="true">
-                  <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                  —
-                  <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                </div>
-                <div class="r-small">
-                  <span contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</span>
-                  •
-                  <span contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</span>
-                </div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="r-sec">
-            <h4>Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderDarkSidebar(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-dark" id="resumeThemeRoot">
-          <aside class="side">
-            ${photoHTML("dark")}
-            <div class="r-title" style="font-size:24px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            <div class="r-line" style="background:rgba(255,255,255,.18)"></div>
-            <div class="r-small" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            <div class="r-sec">
-              <h4 style="opacity:.9">Skills</h4>
-              <div>
-                ${data.skills.map((s,i)=>`<span class="pill" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-              </div>
-            </div>
-            <div class="r-sec">
-              <h4 style="opacity:.9">Languages</h4>
-              <div class="r-small" contenteditable="true" data-bind="languages">${esc(data.languages.join(" • "))}</div>
-            </div>
-          </aside>
-          <section class="main">
-            <div class="r-sec">
-              <h4>Summary</h4>
-              <div class="r-small" style="font-size:13px;line-height:1.7" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-            </div>
-            <div class="r-sec">
-              <h4>Experience</h4>
-              ${data.experience.map((x,ei)=>`
-                <div style="margin-bottom:12px">
-                  <div style="display:flex;justify-content:space-between;gap:10px">
-                    <div style="font-weight:950" contenteditable="true">
-                      <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                      —
-                      <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                    </div>
-                    <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                  </div>
-                  <ul style="margin:6px 0 0 18px;line-height:1.75">
-                    ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
-            </div>
-            <div class="r-sec">
-              <h4>Education</h4>
-              ${data.education.map((ed,di)=>`
-                <div style="margin-bottom:8px">
-                  <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-                </div>
-              `).join("")}
-            </div>
-          </section>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderTimeline(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-timeline" id="resumeThemeRoot">
-          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-              <div class="r-small" style="margin-top:10px" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-            ${photoHTML("creative")}
-          </div>
-          <div class="r-sec">
-            <h4>Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Experience Timeline</h4>
-            <div class="timeline">
-              ${data.experience.map((x,ei)=>`
-                <div style="margin-bottom:14px">
-                  <div style="font-weight:950">
-                    <span class="dot"></span>
-                    <span contenteditable="true" data-bind="exp.${ei}.title">${esc(x.title)}</span>
-                    —
-                    <span contenteditable="true" data-bind="exp.${ei}.company">${esc(x.company)}</span>
-                  </div>
-                  <div class="r-small" style="margin-top:4px">
-                    <span contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</span>
-                    •
-                    <span contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</span>
-                  </div>
-                  <ul style="margin:6px 0 0 18px;line-height:1.75">
-                    ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderBordered(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-bordered" id="resumeThemeRoot">
-          <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            </div>
-            <div class="r-small" style="text-align:right">
-              <div contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Experience</h4>
-            ${data.experience.map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="font-weight:950" contenteditable="true">
-                  <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                  —
-                  <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                </div>
-                <div class="r-small" style="margin-top:4px">
-                  <span contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</span>
-                  •
-                  <span contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</span>
-                </div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function photoHTML(kind){
-      const src = (model.photoUser || "").trim();
-      if(!src) return "";
-      if(kind==="modern") return `<div class="avatar"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="exec") return `<div class="p"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="creative") return `<div class="photo"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="classic") return `<div class="p"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="dark") return `<div class="avatar"><img src="${src}" alt="Profile"/></div>`;
-      return "";
-    }
-
-    function applyThemeVars(root, theme){
-      if(!root) return;
-      root.classList.add("resume-theme");
-      root.style.setProperty("--accent", theme.accent);
-      root.style.setProperty("--accent2", theme.accent2);
-      root.style.setProperty("--chipBg", theme.chipBg);
-      root.style.setProperty("--chipBorder", theme.chipBorder);
-      root.style.setProperty("--sideBg1", theme.sideBg1);
-      root.style.setProperty("--sideBg2", theme.sideBg2);
-    }
-
-    /* =========================
-       RANDOM DATA GENERATOR
-    ========================= */
-    function makeRandomResume(){
-      const first = pick(["Aarav","Vivaan","Aditya","Kabir","Ishaan","Reyansh","Arjun","Riya","Anaya","Ira","Meera","Sara"]);
-      const last  = pick(["Sharma","Patel","Khan","Mehta","Kapoor","Nair","Gupta","Singh","Joshi","Iyer","Choudhary"]);
-      const role  = pick(["Frontend Developer","JavaScript Developer","UI Developer","Web Developer","React Trainee","Junior Developer"]);
-      const city  = pick(["Pune, India","Mumbai, India","Hyderabad, India","Bengaluru, India","Nagpur, India","Delhi NCR, India"]);
-      const phone = `+91 ${rand(70000,99999)} ${rand(10000,99999)}`;
-      const email = `${first.toLowerCase()}.${last.toLowerCase()}${rand(11,99)}@example.com`;
-      const web   = `${first.toLowerCase()}${last.toLowerCase()}.portfolio.site`;
-      return {
-        name: `${first} ${last}`,
-        role,
-        location: city,
-        contact: `${phone} | ${email} | ${web}`,
-        photoUser: "",
-        summary: pick([
-          "Detail-oriented developer focused on clean UI, responsive layouts, and practical problem-solving. Comfortable with HTML, CSS, JavaScript and modern web workflows.",
-          "Motivated junior developer with strong fundamentals in UI development, component-based thinking, and user-friendly design.",
-          "Entry-level web developer passionate about creating polished interfaces, improving performance, and shipping reliable features with clean code."
-        ]),
-        skills: shuffle([
-          "HTML5","CSS3","JavaScript","Responsive Design",
-          "Bootstrap","Git & GitHub","Basic React","API Basics",
-          "UI/UX Basics","Debugging","Figma Basics","Team Collaboration"
-        ]).slice(0,8),
-        languages: shuffle(["English","Hindi","Marathi","Urdu"]).slice(0,3),
-        experience: [
-          {
-            title: pick(["Web Developer Intern","Frontend Intern","UI Intern","Trainee Developer"]),
-            company: pick(["A2Z IT Hub","TechNova Studio","WebCraft Labs","PixelWave Agency"]),
-            time: pick(["Jan 2026 – Present","Aug 2025 – Jan 2026","Jun 2025 – Dec 2025"]),
-            location: city,
-            points: [
-              "Built responsive UI sections matching a design reference with clean HTML/CSS.",
-              "Implemented template selection flow and direct editor rendering using JavaScript.",
-              "Improved layout consistency with reusable CSS utilities and components."
-            ]
-          },
-          {
-            title: pick(["Support Executive","Customer Support","Operations Associate"]),
-            company: pick(["Telecom Support Center","ServiceDesk India","Customer Care Hub"]),
-            time: pick(["2024 – 2025","2023 – 2024"]),
-            location: city,
-            points: [
-              "Handled customer issues and documented resolutions with clarity and accuracy.",
-              "Maintained quality standards and improved turnaround time on frequent requests."
-            ]
-          }
-        ],
-        education: [
-          { degree: pick(["BBA (CA)","BCA","BSc (Computer Science)"]),
-            school: pick(["XYZ College, Maharashtra","ABC Institute, Pune","City College, Mumbai"]),
-            year: pick(["2023 – 2026","2022 – 2025"])
-          }
-        ]
-      };
-    }
-
-    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-    function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-    function shuffle(arr){
-      const a=[...arr];
-      for(let i=a.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [a[i],a[j]]=[a[j],a[i]];
-      }
-      return a;
-    }
-    function esc(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    /* =========================
-       CORE UI FUNCTIONS
-    ========================= */
-    function renderTemplateCards(list){
-      templatesGrid.innerHTML = list.map(t => `
-        <article class="card" data-template-id="${t.id}" data-category="${t.category}">
-          <div class="badge">${t.tag}</div>
-          <div class="thumb">
-            <img src="${t.img}" alt="${esc(t.name)}" loading="lazy"/>
-            <div class="hover-text">Use Template</div>
-          </div>
-          <div class="card-body">
-            <h3>${esc(t.name)}</h3>
-            <p>${esc(makeShortDesc(t))}</p>
-            <div class="actions">
-              <button class="btn light" data-action="preview">Preview</button>
-              <button class="btn primary" data-action="use">Use Template</button>
-            </div>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function makeShortDesc(t){
-      const map = {
-        modern:"Clean modern layout with bold accents.",
-        professional:"Strong professional structure for corporate roles.",
-        creative:"Creative design with standout sections.",
-        simple:"Minimal, ATS-friendly and easy to read."
-      };
-      return map[t.category] || "High-quality resume template.";
-    }
-
-    function showTemplates(){
-      templatesView.classList.add("active");
-      editorView.classList.remove("active");
-      backBtn.style.display="none";
-      randomBtn.style.display="none";
-      pdfBtn.style.display="none";
-      window.scrollTo({top:0,behavior:"smooth"});
-    }
-
-    function showEditor(){
-      templatesView.classList.remove("active");
-      editorView.classList.add("active");
-      backBtn.style.display="";
-      randomBtn.style.display="";
-      pdfBtn.style.display="";
-      window.scrollTo({top:0,behavior:"smooth"});
-    }
-
-    function openEditor(template){
-      captureEdits();
-      currentTemplate = template;
-      chosenName.textContent = template.name;
-      chosenTag.textContent = template.tag;
-      chosenImg.src = template.img;
-      rerender();
-      showEditor();
-      saveState();
-    }
-
-    function rerender(){
-      if(!currentTemplate) return;
-      currentTemplate.render(resumeRoot, model, currentTemplate);
-      refreshSkillPanel();
-      // Remove any existing QR container from previous renders (it will be re-added on print)
-      const oldQR = document.getElementById('printQRContainer');
-      if(oldQR) oldQR.remove();
-    }
-
-    function refreshSkillPanel(){
-      skillList.innerHTML = model.skills.map((s,i)=>`
-        <span class="skill-item">
-          <span>${esc(s)}</span>
-          <button class="xbtn" type="button" data-skill-del="${i}">x</button>
-        </span>
-      `).join("");
-    }
-
-    function captureEdits(){
-      if(!resumeRoot) return;
-      const nodes = resumeRoot.querySelectorAll("[data-bind]");
-      nodes.forEach(el=>{
-        const key = el.getAttribute("data-bind");
-        const value = cleanText(el.textContent);
-        if(!key) return;
-        if(key === "name") model.name = value;
-        else if(key === "role") model.role = value;
-        else if(key === "contact") model.contact = value;
-        else if(key === "location") model.location = value;
-        else if(key === "summary") model.summary = value;
-        else if(key === "languages"){
-          model.languages = value.split(/•|,|\|/g).map(s=>s.trim()).filter(Boolean).slice(0,6);
-        }
-        else if(key.startsWith("skills.")){
-          const idx = Number(key.split(".")[1]);
-          if(!Number.isNaN(idx) && model.skills[idx] !== undefined) model.skills[idx] = value;
-        }
-        else if(key.startsWith("exp.")){
-          const parts = key.split(".");
-          const i = Number(parts[1]);
-          const field = parts[2];
-          if(Number.isNaN(i) || !model.experience[i]) return;
-          if(["title","company","time","location"].includes(field)) model.experience[i][field] = value;
-        }
-        else if(key.startsWith("expPoint.")){
-          const parts = key.split(".");
-          const i = Number(parts[1]);
-          const j = Number(parts[2]);
-          if(Number.isNaN(i) || Number.isNaN(j) || !model.experience[i]) return;
-          if(model.experience[i].points[j] === undefined) return;
-          model.experience[i].points[j] = value;
-        }
-        else if(key.startsWith("edu.")){
-          const parts = key.split(".");
-          const i = Number(parts[1]);
-          const field = parts[2];
-          if(Number.isNaN(i) || !model.education[i]) return;
-          if(["degree","school","year"].includes(field)) model.education[i][field] = value;
-        }
-      });
-    }
-
-    function cleanText(t){ return String(t||"").replace(/\s+/g," ").trim(); }
-
-    function readFileAsDataURL(file){
-      return new Promise((resolve,reject)=>{
-        const r = new FileReader();
-        r.onload = ()=>resolve(r.result);
-        r.onerror = reject;
-        r.readAsDataURL(file);
-      });
-    }
-
-    /* =========================
-       QR CODE FEATURE (ADDED - only for print)
-    ========================= */
-function generatePrintQR() {
-  // ... container creation code ...
-
-  // Encode the current resume data into the URL fragment
-  const stateForUrl = {
-    model: model,
-    templateId: currentTemplate.id
-  };
-  const encoded = encodeURIComponent(JSON.stringify(stateForUrl));
-  const url = new URL(window.location.href);
-  url.searchParams.set('data', encoded);
-  url.searchParams.set('print', '1');
-
-  // Generate QR with that URL
-  new QRCode(qrBox, {
-    text: url.toString(),
-    width: 110,
-    height: 110
-  });
-}     
-
-    
-      // Build a shareable URL with snapshot
-      const snapshotId = 'resume_snapshot_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
-      const snapshotData = {
-        model: JSON.parse(JSON.stringify(model)),
-        templateId: currentTemplate?.id || null,
-        timestamp: Date.now()
-      };
-      try {
-        localStorage.setItem(snapshotId, JSON.stringify(snapshotData));
-        // clean old snapshots
-        const keys = Object.keys(localStorage).filter(k => k.startsWith('resume_snapshot_'));
-        if (keys.length > 5) {
-          keys.sort().slice(0, keys.length - 5).forEach(k => localStorage.removeItem(k));
-        }
-      } catch(e) { console.warn("Snapshot failed", e); }
-      
-      const url = new URL(window.location.href);
-      url.searchParams.set('resumeId', snapshotId);
-      url.searchParams.set('print', '1');
-      
-      
-      if (typeof QRCode !== 'undefined') {
-        try {
-          new QRCode(qrBox, {
-  text: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID",
-  width: 110,
-  height: 110,
-  colorDark: "#0b2540",
-  colorLight: "#ffffff",
-  correctLevel: QRCode.CorrectLevel.H
-});
-        } catch(e) {
-          console.warn("QR generation error", e);
-          qrBox.innerText = '⚠️ QR unavailable';
-        }
-      } else {
-        console.error("QRCode library not loaded");
-        qrBox.innerText = 'QR lib missing';
-      }
-    }
-
-    function prepareAndPrint() {
-      captureEdits();
-      saveState();
-      generatePrintQR();
-      setTimeout(() => {
-        window.print();
-      }, 100);
-    }
-
-    function handleResumeSnapshotFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      const resumeId = params.get('resumeId');
-      const shouldPrint = params.get('print') === '1';
-      if (!resumeId) return false;
-      const raw = localStorage.getItem(resumeId);
-      if (!raw) return false;
-      try {
-        const snapshot = JSON.parse(raw);
-        if (snapshot.model && snapshot.templateId) {
-          model = snapshot.model;
-          const foundTemplate = TEMPLATES.find(t => t.id === snapshot.templateId);
-          if (foundTemplate) {
-            currentTemplate = foundTemplate;
-            window.history.replaceState({}, document.title, window.location.pathname);
-            rerender();
-            showEditor();
-            if (shouldPrint) {
-              setTimeout(() => {
-                generatePrintQR();
-                setTimeout(() => window.print(), 200);
-              }, 300);
-            }
-            return true;
-          }
-        }
-      } catch(e) { console.warn("Restore error", e); }
-      return false;
-    }
-
-    /* =========================
-       EVENT LISTENERS
-    ========================= */
-    filterBtns.forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        filterBtns.forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
-        const filter = btn.dataset.filter;
-        templatesGrid.querySelectorAll(".card").forEach(card=>{
-          const cat = card.dataset.category;
-          card.style.display = (filter === "all" || filter === cat) ? "" : "none";
-        });
-      });
-    });
-
-    templatesGrid.addEventListener("click", (e)=>{
-      const btn = e.target.closest("button");
-      if(!btn) return;
-      const card = e.target.closest(".card");
-      if(!card) return;
-      const id = card.dataset.templateId;
-      const t = TEMPLATES.find(x=>x.id===id);
-      if(!t) return;
-      if(btn.dataset.action === "preview" || btn.dataset.action === "use"){
-        openEditor(t);
-      }
-    });
-
-    backBtn.addEventListener("click", () => showTemplates());
-    randomBtn.addEventListener("click", () => {
-      captureEdits();
-      const keepPhoto = model.photoUser;
-      model = makeRandomResume();
-      model.photoUser = keepPhoto || "";
-      rerender();
-      saveState();
-    });
-    pdfBtn.addEventListener("click", () => prepareAndPrint());
-    changeTemplateBtn.addEventListener("click", () => showTemplates());
-    printBtn2.addEventListener("click", () => prepareAndPrint());
-
-    photoInput.addEventListener("change", async () => {
-      if(!photoInput.files || !photoInput.files[0]) return;
-      captureEdits();
-      const dataUrl = await readFileAsDataURL(photoInput.files[0]);
-      model.photoUser = dataUrl;
-      rerender();
-      saveState();
-    });
-    removePhotoBtn.addEventListener("click", ()=>{
-      captureEdits();
-      model.photoUser = "";
-      rerender();
-      saveState();
-    });
-    clearFileBtn.addEventListener("click", ()=> photoInput.value="");
-
-    addSkillBtn.addEventListener("click", ()=>{
-      const val = (skillInput.value || "").trim();
-      if(!val) return;
-      captureEdits();
-      const parts = val.split(",").map(s=>s.trim()).filter(Boolean);
-      parts.forEach(s=>{
-        if(!model.skills.includes(s)) model.skills.push(s);
-      });
-      skillInput.value="";
-      rerender();
-      saveState();
-    });
-    skillInput.addEventListener("keydown",(e)=>{
-      if(e.key === "Enter"){
-        e.preventDefault();
-        addSkillBtn.click();
-      }
-    });
-    skillList.addEventListener("click",(e)=>{
-      const del = e.target.closest("[data-skill-del]");
-      if(!del) return;
-      const idx = Number(del.dataset.skillDel);
-      if(Number.isNaN(idx)) return;
-      captureEdits();
-      model.skills.splice(idx,1);
-      rerender();
-      saveState();
-    });
-
-    /* =========================
-       THUMBNAIL GENERATION
-    ========================= */
-    function makePreviewData(){
-      return {
-        name: "Aarav Sharma",
-        role: "Frontend Developer",
-        location: "Pune, India",
-        contact: "+91 98765 43210 | aarav@example.com | aarav.portfolio.site",
-        photoUser: "",
-        summary: "Detail-oriented developer focused on clean UI, responsive layouts, and practical problem-solving.",
-        skills: ["HTML5","CSS3","JavaScript","Responsive Design","Bootstrap","Git & GitHub","React Basics","UI Design"],
-        languages: ["English","Hindi","Marathi"],
-        experience: [
-          { title: "Frontend Developer Intern", company: "A2Z IT Hub", time: "Jan 2026 – Present", location: "Pune, India", points: ["Built responsive UI sections.", "Implemented template selection flow."] },
-          { title: "Customer Support Executive", company: "ServiceDesk India", time: "2024 – 2025", location: "Ahmednagar, India", points: ["Handled customer issues.", "Maintained quality standards."] }
-        ],
-        education: [ { degree: "BBA (CA)", school: "XYZ College, Maharashtra", year: "2023 – 2026" } ]
-      };
-    }
-
-    async function generateTemplateThumb(template){
-      const tempWrap = document.createElement("div");
-      tempWrap.style.position = "fixed";
-      tempWrap.style.left = "-99999px";
-      tempWrap.style.top = "0";
-      tempWrap.style.width = "900px";
-      tempWrap.style.minHeight = "1200px";
-      tempWrap.style.background = "#fff";
-      tempWrap.style.zIndex = "-1";
-      document.body.appendChild(tempWrap);
-      const previewData = makePreviewData();
-      template.render(tempWrap, previewData, template);
-      const previewRoot = tempWrap.firstElementChild;
-      if (previewRoot) {
-        previewRoot.style.width = "900px";
-        previewRoot.style.minHeight = "1200px";
-        previewRoot.style.margin = "0";
-        previewRoot.style.transform = "scale(1)";
-        previewRoot.style.transformOrigin = "top left";
-        previewRoot.style.boxShadow = "none";
-        previewRoot.style.borderRadius = "0";
-        previewRoot.style.overflow = "hidden";
-      }
-      try{
-        const canvas = await html2canvas(tempWrap, { scale: 1.4, useCORS: true, backgroundColor: "#ffffff", logging: false });
-        template.img = canvas.toDataURL("image/png");
-      }catch(err){ console.log("Thumb error", err); }
-      document.body.removeChild(tempWrap);
-    }
-
-    async function generateAllTemplateThumbs(){
-      for (let i = 0; i < TEMPLATES.length; i++) {
-        await generateTemplateThumb(TEMPLATES[i]);
-        renderTemplateCards(TEMPLATES);
-      }
-    }
-
-    (async function init(){
-      renderTemplateCards(TEMPLATES);
-      const saved = loadState();
-      if(saved && saved.model) model = saved.model;
-      await generateAllTemplateThumbs();
-      if(saved && saved.currentTemplateId){
-        const found = TEMPLATES.find(t => t.id === saved.currentTemplateId);
-        if(found) openEditor(found);
-        else showTemplates();
-      } else {
-        showTemplates();
-      }
-      if(!handleResumeSnapshotFromURL()) console.log("Ready");
-    })();
-    const qrUrl = "https://drive.google.com/uc?export=download&id=1ABCxyz";
-  </script>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <title>Resume Builder</title>
-  
-  <style>
-    /* All your original styles remain exactly the same */
-    *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
-    body{background:#f4f7fb;color:#0b2540}
-
-    /* TOPBAR */
-    .topbar{
-      background:linear-gradient(135deg,#0b2b52,#123b70);
-      color:#fff;padding:16px 22px;
-      display:flex;align-items:center;justify-content:space-between;
-      position:sticky;top:0;z-index:50;
-      box-shadow:0 12px 30px rgba(0,0,0,.14);
-    }
-    .brand{font-size:22px;font-weight:900;letter-spacing:.2px}
-    .brand span{color:#7ee0ff}
-    .top-actions{display:flex;gap:10px;align-items:center}
-    .btn{
-      border:none;border-radius:999px;
-      padding:10px 14px;font-weight:900;cursor:pointer;
-      transition:.2s;
-      white-space:nowrap;
-    }
-    .btn.primary{background:#2f6bff;color:#fff}
-    .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
-    .btn.light{background:#fff;color:#123b70;border:1px solid #d6e3f3}
-    .btn.danger{background:#ff3b3b;color:#fff}
-    .btn:hover{transform:translateY(-1px)}
-    .btn:active{transform:scale(.98)}
-
-    /* WRAP */
-    .wrap{max-width:1200px;margin:18px auto;padding:0 14px}
-    .view{display:none}
-    .view.active{display:block}
-
-    /* FILTER */
-    .filter-wrap{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px}
-    .filter-btn{
-      border:1px solid #d6e3f3;background:#fff;color:#123b70;
-      padding:10px 14px;border-radius:999px;font-weight:900;
-      cursor:pointer;transition:.2s;
-    }
-    .filter-btn.active{background:#123b70;color:#fff;border-color:#123b70}
-
-    /* GRID */
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(4,1fr)}
-    @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:520px){.grid{grid-template-columns:1fr}}
-
-    .card{
-      background:#fff;border:1px solid #e5eef9;border-radius:14px;
-      overflow:hidden;position:relative;
-      box-shadow:0 10px 30px rgba(10,30,60,.06);
-    }
-    .badge{
-      position:absolute;top:10px;left:10px;
-      background:#0b2b52;color:#fff;
-      font-size:12px;font-weight:900;
-      padding:6px 10px;border-radius:999px;z-index:2;
-      text-transform:uppercase;
-    }
-    .thumb{background:#eef4ff;position:relative}
-    .thumb img{width:100%;height:auto;display:block}
-    .thumb .hover-text{
-      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-      background:rgba(11,43,82,.55);color:#fff;font-weight:1000;
-      opacity:0;transition:.2s;font-size:14px;letter-spacing:.3px;
-    }
-    .card:hover .hover-text{opacity:1}
-
-    .card-body{padding:14px}
-    .card-body h3{font-size:18px;margin-bottom:6px}
-    .card-body p{font-size:13px;opacity:.8;line-height:1.4;margin-bottom:12px}
-    .actions{display:flex;gap:10px}
-    .actions .btn{flex:1}
-    .actions .btn.primary{background:#2f6bff;color:#fff}
-    .actions .btn.light{background:#fff;color:#2f6bff;border:1px solid #cfe0ff}
-
-    /* EDITOR */
-    .editor-shell{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
-    @media(max-width:980px){.editor-shell{grid-template-columns:1fr}}
-
-    .panel{
-      background:#fff;border:1px solid #e5eef9;border-radius:14px;
-      box-shadow:0 10px 30px rgba(10,30,60,.06);
-      overflow:hidden;
-    }
-    .panel .phead{
-      padding:14px 14px;border-bottom:1px solid #eef2f7;
-      display:flex;justify-content:space-between;align-items:center;gap:10px;
-    }
-    .panel .phead .title{font-weight:1000}
-    .panel .pbody{padding:14px}
-    .mini{border:1px solid #e5eef9;border-radius:12px;overflow:hidden;background:#f7faff}
-    .mini img{width:100%;height:auto;display:block}
-    .hint{font-size:12px;opacity:.75;line-height:1.5;margin-top:10px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .row .btn{flex:1;min-width:140px;border-radius:12px}
-
-    /* Small form boxes */
-    .box{border:1px solid #e5eef9;border-radius:12px;padding:12px;margin-top:12px;background:#fbfdff}
-    .box h5{font-size:13px;margin-bottom:8px}
-    .field{display:flex;gap:8px;align-items:center}
-    .input{
-      width:100%;border:1px solid #d6e3f3;border-radius:10px;padding:10px 12px;
-      outline:none;background:#fff;font-weight:700;color:#0b2540;
-    }
-    .sub{font-size:12px;opacity:.75;margin-top:6px;line-height:1.4}
-    .skill-list{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-    .skill-item{
-      display:inline-flex;align-items:center;gap:6px;
-      border:1px solid #d8e6ff;background:#f3f7ff;color:#0b2b52;
-      border-radius:999px;padding:8px 10px;font-size:12px;font-weight:1000;
-    }
-    .xbtn{
-      border:none;cursor:pointer;
-      background:rgba(255,59,59,.15);color:#ff3b3b;
-      font-weight:1000;border-radius:999px;padding:2px 7px;
-    }
-
-    /* PAPER */
-    .paper{
-      width:210mm;
-      min-height:297mm;
-      margin:0 auto 30px auto;
-      background:#fff;
-      border-radius:14px;
-      border:1px solid #dbe7f7;
-      box-shadow:0 25px 70px rgba(10,30,60,.12);
-      overflow:hidden;
-    }
-
-    /* Inline edit */
-    [contenteditable="true"]{outline:none}
-    [contenteditable="true"]:focus{
-      box-shadow:inset 0 0 0 2px rgba(47,107,255,.25);
-      border-radius:6px;
-    }
-    .r-title{font-weight:1000;letter-spacing:.2px}
-    .r-small{font-size:12px;opacity:.85}
-    .r-sec{margin-top:14px;break-inside:avoid;page-break-inside:avoid}
-    .r-sec h4{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin-bottom:8px}
-    .r-line{height:1px;background:#e9eef6;margin:10px 0}
-
-    /* ========= THEME VARIABLES ========= */
-    .resume-theme{
-      --accent:#2f6bff;
-      --accent2:#123b70;
-      --chipBg:#f3f7ff;
-      --chipBorder:#d8e6ff;
-      --sideBg1:#d9ccff;
-      --sideBg2:#f4f0ff;
-      --paperBg:#ffffff;
-      --text:#0b2540;
-    }
-    .resume-theme{background:var(--paperBg);color:var(--text)}
-
-    /* ========= TEMPLATE LAYOUTS ========= */
-
-    /* 1) MODERN SIDEBAR */
-    .t-modern{display:grid;grid-template-columns:270px 1fr}
-    .t-modern .side{background:linear-gradient(180deg,var(--sideBg1),var(--sideBg2));padding:22px 18px}
-    .t-modern .main{padding:24px 24px 28px 24px}
-    .avatar{
-      width:78px;height:78px;border-radius:16px;
-      background:#fff;border:1px solid rgba(0,0,0,.08);
-      display:flex;align-items:center;justify-content:center;
-      overflow:hidden;margin:0 0 12px 0;
-    }
-    .avatar img{width:100%;height:100%;object-fit:cover}
-    .pill{
-      display:inline-block;background:#fff;border:1px solid rgba(0,0,0,.10);
-      padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;
-      margin:6px 6px 0 0;
-    }
-
-    /* 2) EXECUTIVE (TOP BAR) */
-    .t-exec{padding:24px}
-    .t-exec .top{
-      display:flex;gap:14px;align-items:center;justify-content:space-between;
-      border-bottom:3px solid rgba(0,0,0,.08);padding-bottom:12px;
-    }
-    .t-exec .top .who{display:flex;gap:12px;align-items:center}
-    .t-exec .top .who .p{width:56px;height:56px;border-radius:999px;overflow:hidden;border:1px solid rgba(0,0,0,.10)}
-    .t-exec .top .who .p img{width:100%;height:100%;object-fit:cover}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .chip{
-      border:1px solid var(--chipBorder);
-      background:var(--chipBg);
-      color:var(--accent2);
-      border-radius:999px;padding:6px 10px;font-size:12px;font-weight:1000
-    }
-
-    /* 3) CREATIVE (ACCENT BAR) */
-    .t-creative{padding:26px;position:relative}
-    .t-creative::before{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(135deg,rgba(47,107,255,.10),transparent 55%);
-      pointer-events:none;
-    }
-    .t-creative .top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;position:relative;z-index:2}
-    .t-creative .photo{width:70px;height:70px;border-radius:20px;overflow:hidden;border:2px solid rgba(0,0,0,.08)}
-    .t-creative .photo img{width:100%;height:100%;object-fit:cover}
-    .t-creative .bar{height:8px;background:var(--accent);border-radius:999px;margin-top:10px;opacity:.95}
-
-    /* 4) MINIMAL TWO COLUMN */
-    .t-mini{padding:26px}
-    .t-mini .head{border-bottom:2px solid rgba(0,0,0,.08);padding-bottom:10px}
-    .t-mini .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media(max-width:700px){.t-modern{grid-template-columns:1fr}.t-mini .two{grid-template-columns:1fr}}
-
-    /* 5) CLASSIC LEFT LINE */
-    .t-classic{padding:26px}
-    .t-classic .headline{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
-      border-left:8px solid var(--accent);padding-left:12px;
-      padding-bottom:10px;border-bottom:2px solid rgba(0,0,0,.08);
-    }
-
-    /* 6) DARK SIDEBAR */
-    .t-dark{display:grid;grid-template-columns:280px 1fr}
-    .t-dark .side{
-      background:linear-gradient(180deg,var(--accent2),#0b2b52);
-      color:#fff;padding:22px 18px
-    }
-    .t-dark .side .r-small{opacity:.92}
-    .t-dark .main{padding:24px 24px 28px 24px}
-    .t-dark .pill{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:#fff}
-
-    /* 7) TIMELINE (PROJECT STYLE) */
-    .t-timeline{padding:26px}
-    .timeline{
-      margin-top:10px;border-left:2px solid rgba(0,0,0,.10);padding-left:14px
-    }
-    .dot{
-      width:10px;height:10px;border-radius:999px;background:var(--accent);
-      display:inline-block;margin-left:-19px;margin-right:10px;position:relative;top:-1px
-    }
-
-    /* 8) BORDERED (ATS CLEAN) */
-    .t-bordered{padding:26px}
-    .t-bordered .boxline{
-      border:2px solid rgba(0,0,0,.10);border-radius:12px;padding:14px;margin-top:12px
-    }
-
-    @media(max-width:980px){
-      .paper{
-        width:100%;
-        min-height:auto;
-      }
-    }
-
-    /* PRINT */
-    @page{
-      size:A4;
-      margin:0;
-    }
-
-    @media print{
-      html,body{
-        width:210mm;
-        height:297mm;
-        background:#fff;
-      }
-
-      *{
-        -webkit-print-color-adjust:exact !important;
-        print-color-adjust:exact !important;
-      }
-
-      .topbar,.wrap .panel{
-        display:none !important;
-      }
-
-      .wrap{
-        max-width:none;
-        margin:0;
-        padding:0;
-      }
-
-      .paper{
-        width:210mm !important;
-        min-height:297mm !important;
-        margin:0 !important;
-        border:none !important;
-        border-radius:0 !important;
-        box-shadow:none !important;
-        overflow:hidden !important;
-      }
-      /* Show QR container only in print */
-      .qr-print-only {
-        display: block !important;
-      }
-    }
-
-    .thumb{
-      background:#eef4ff;
-      position:relative;
-      aspect-ratio: 3 / 4;
-      overflow:hidden;
-    }
-
-    .thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .thumb .hover-text{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(11,43,82,.55);
-      color:#fff;
-      font-weight:1000;
-      opacity:0;
-      transition:.25s;
-      font-size:16px;
-      letter-spacing:.3px;
-      pointer-events:none;
-    }
-
-    .thumb:hover .hover-text{
-      opacity:1;
-    }
-
-    @page { margin: 12mm; }
-    @media print{
-      body{background:#fff}
-      *{-webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;}
-      .topbar,.wrap .panel{display:none !important}
-      .wrap{max-width:none;margin:0;padding:0}
-      .paper{box-shadow:none;border:none;border-radius:0}
-    }
-
-    /* QR container styling - hidden on screen, visible in print */
-    .qr-print-only {
-      display: none;
-      margin-top: 24px;
-      padding: 12px 0 0 0;
-      text-align: center;
-      border-top: 1px solid #e2e8f0;
-    }
-    .qr-print-only .qr-label {
-      font-size: 10px;
-      margin-top: 6px;
-      color: #4a5568;
-      letter-spacing: 0.3px;
-    }
-    #dynamicQRBox canvas,
-    #dynamicQRBox img {
-      margin: 0 auto;
-    }
-  </style>
-</head>
-<body>
-
-  <header class="topbar">
-    <div class="brand">Resume<span>Builder</span></div>
-    <div class="top-actions">
-      <button class="btn ghost" id="backBtn" style="display:none;">← Back</button>
-      <button class="btn ghost" id="randomBtn" style="display:none;">Random Details</button>
-      <button class="btn primary" id="pdfBtn" style="display:none;">Download PDF</button>
-    </div>
-  </header>
-
-  <main class="wrap">
-
-    <!-- VIEW: TEMPLATES -->
-    <section class="view active" id="templatesView">
-      <div class="filter-wrap">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="modern">Modern</button>
-        <button class="filter-btn" data-filter="professional">Professional</button>
-        <button class="filter-btn" data-filter="creative">Creative</button>
-        <button class="filter-btn" data-filter="simple">Simple</button>
-      </div>
-
-      <!-- cards auto-generate here -->
-      <section class="grid" id="templatesGrid"></section>
-    </section>
-
-    <!-- VIEW: EDITOR -->
-    <section class="view" id="editorView">
-      <div class="editor-shell">
-
-        <aside class="panel">
-          <div class="phead">
-            <div class="title" id="chosenName">Template</div>
-            <span class="r-small" id="chosenTag">Editing</span>
-          </div>
-
-          <div class="pbody">
-            <div class="mini">
-              <img id="chosenImg" src="" alt="Template preview">
-            </div>
-
-            <div class="hint">
-              ✅ Text par click karke edit.<br/>
-              🧠 Skills add/delete panel se.<br/>
-              🖼️ Photo upload -> resume + PDF me aayega. Nahi to auto remove.<br/>
-              💾 Auto-save ON (refresh ke baad bhi data rahega).<br/>
-              📄 Download PDF = browser print (Save as PDF).
-            </div>
-
-            <!-- PHOTO -->
-            <div class="box">
-              <h5>Profile Photo</h5>
-              <div class="field">
-                <input class="input" id="photoInput" type="file" accept="image/*" />
-              </div>
-              <div class="row" style="margin-top:10px">
-                <button class="btn light" id="removePhotoBtn" type="button">Remove Photo</button>
-                <button class="btn ghost" id="clearFileBtn" type="button" style="border:1px solid #d6e3f3;color:#123b70;background:#fff">Clear File</button>
-              </div>
-              <div class="sub">Tip: Upload kiya to PDF me photo bhi save hoga.</div>
-            </div>
-
-            <!-- SKILLS -->
-            <div class="box">
-              <h5>Skills (Add / Delete)</h5>
-              <div class="field">
-                <input class="input" id="skillInput" placeholder="e.g. React, Node.js, Excel" />
-                <button class="btn primary" id="addSkillBtn" type="button">Add</button>
-              </div>
-              <div class="skill-list" id="skillList"></div>
-              <div class="sub">Delete ke liye chip ke (x) par click karo.</div>
-            </div>
-
-            <div class="row">
-              <button class="btn light" id="changeTemplateBtn">Change Template</button>
-              <button class="btn primary" id="printBtn2">Download PDF</button>
-            </div>
-          </div>
-        </aside>
-
-        <section class="paper" id="resumeRoot"></section>
-      </div>
-    </section>
-
-  </main>
-
-  <script>
-    /* =========================
-       ORIGINAL CODE - UNCHANGED (preserved)
-       Only QR code print functionality added at the end.
-    ========================= */
-    const templatesView = document.getElementById("templatesView");
-    const editorView = document.getElementById("editorView");
-
-    const backBtn = document.getElementById("backBtn");
-    const randomBtn = document.getElementById("randomBtn");
-    const pdfBtn = document.getElementById("pdfBtn");
-
-    const templatesGrid = document.getElementById("templatesGrid");
-    const filterBtns = document.querySelectorAll(".filter-btn");
-
-    const resumeRoot = document.getElementById("resumeRoot");
-    const chosenName = document.getElementById("chosenName");
-    const chosenTag = document.getElementById("chosenTag");
-    const chosenImg = document.getElementById("chosenImg");
-
-    const changeTemplateBtn = document.getElementById("changeTemplateBtn");
-    const printBtn2 = document.getElementById("printBtn2");
-
-    const skillInput = document.getElementById("skillInput");
-    const addSkillBtn = document.getElementById("addSkillBtn");
-    const skillList = document.getElementById("skillList");
-
-    const photoInput = document.getElementById("photoInput");
-    const removePhotoBtn = document.getElementById("removePhotoBtn");
-    const clearFileBtn = document.getElementById("clearFileBtn");
-
-    /* =========================
-       STORAGE
-    ========================= */
-    const LS_KEY = "resume_builder_v2_state";
-
-    function saveState(){
-      try{
-        const payload = { currentTemplateId: currentTemplate?.id || null, model };
-        localStorage.setItem(LS_KEY, JSON.stringify(payload));
-      }catch(err){}
-    }
-
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(LS_KEY);
-        if(!raw) return null;
-        return JSON.parse(raw);
-      }catch(err){
-        return null;
-      }
-    }
-
-    /* =========================
-       TEMPLATES (52+)
-    ========================= */
-    const palettes = [
-      {accent:"#2f6bff", accent2:"#123b70", sideBg1:"#d9ccff", sideBg2:"#f4f0ff", chipBg:"#f3f7ff", chipBorder:"#d8e6ff"},
-      {accent:"#ff5c7a", accent2:"#5a1630", sideBg1:"#ffd6df", sideBg2:"#fff0f4", chipBg:"#fff1f4", chipBorder:"#ffd1da"},
-      {accent:"#00b894", accent2:"#0b3d36", sideBg1:"#c7fff2", sideBg2:"#effffb", chipBg:"#eafff9", chipBorder:"#bff3e6"},
-      {accent:"#f39c12", accent2:"#5a3c00", sideBg1:"#ffe6bf", sideBg2:"#fff6e6", chipBg:"#fff3df", chipBorder:"#ffe0ad"},
-      {accent:"#6c5ce7", accent2:"#2d2759", sideBg1:"#ded9ff", sideBg2:"#f3f1ff", chipBg:"#f1efff", chipBorder:"#d8d3ff"},
-      {accent:"#0984e3", accent2:"#0b2b52", sideBg1:"#cfe8ff", sideBg2:"#f0f8ff", chipBg:"#eaf5ff", chipBorder:"#cfe8ff"},
-      {accent:"#e17055", accent2:"#4b1f14", sideBg1:"#ffd9d0", sideBg2:"#fff1ee", chipBg:"#fff1ee", chipBorder:"#ffd3c7"},
-      {accent:"#2d3436", accent2:"#111", sideBg1:"#dfe6e9", sideBg2:"#f7f9fa", chipBg:"#f1f3f4", chipBorder:"#dfe6e9"},
-      {accent:"#00cec9", accent2:"#0b3c3b", sideBg1:"#c8fffe", sideBg2:"#efffff", chipBg:"#eaffff", chipBorder:"#bff7f6"},
-      {accent:"#fd79a8", accent2:"#53152f", sideBg1:"#ffe0ea", sideBg2:"#fff2f7", chipBg:"#fff2f7", chipBorder:"#ffd2e1"}
-    ];
-
-    const layouts = [
-      {key:"modern", label:"Modern", category:"modern", renderer: renderModern},
-      {key:"exec", label:"Professional", category:"professional", renderer: renderExecutive},
-      {key:"creative", label:"Creative", category:"creative", renderer: renderCreative},
-      {key:"mini", label:"Simple", category:"simple", renderer: renderMinimalist},
-      {key:"classic", label:"Professional", category:"professional", renderer: renderClassic},
-      {key:"dark", label:"Modern", category:"modern", renderer: renderDarkSidebar},
-      {key:"timeline", label:"Creative", category:"creative", renderer: renderTimeline},
-      {key:"bordered", label:"Simple", category:"simple", renderer: renderBordered}
-    ];
-
-    const namePool = [
-      "Aurora", "Nimbus", "Atlas", "Zenith", "Nova", "Prism", "Pulse", "Vertex", "Sage", "Orbit",
-      "Cobalt", "Bloom", "Horizon", "Vivid", "Echo", "Glide", "Stone", "Cedar", "Ivy", "Ember",
-      "Slate", "Crown", "Metro", "Crisp", "Aster", "Breeze", "Summit", "Lumen", "Fjord", "Coral",
-      "Dune", "Mosaic", "Kite", "Quill", "Pearl", "Ripple", "Drift", "Mellow", "Roam", "Pioneer",
-      "Stellar", "Fusion", "Mint", "Velvet", "Canyon", "Harbor", "Spruce", "Pilot", "Vista", "Saffron",
-      "Citrus", "Onyx", "Quartz", "Marble", "Raven", "Opal", "Lagoon", "Comet", "Cinder", "Basil"
-    ];
-
-    function buildTemplates(count=52){
-      const out = [];
-      for(let i=0;i<count;i++){
-        const pal = palettes[i % palettes.length];
-        const lay = layouts[i % layouts.length];
-        const baseName = namePool[i] || ("Template " + (i+1));
-        const fullName = `${baseName} ${lay.key.toUpperCase()}`;
-        const id = `${lay.key}-${String(i+1).padStart(2,"0")}`;
-        const category = lay.category;
-        const tag = lay.label;
-        const img = makePreviewImage(fullName, pal.accent);
-        out.push({
-          id, name: fullName, category, tag, img,
-          theme: pal, rendererKey: lay.key, render: lay.renderer
-        });
-      }
-      return out;
-    }
-
-    function makePreviewImage(text, color){
-      const safe = encodeURIComponent(text);
-      const bg = encodeURIComponent(color.replace("#",""));
-      return `https://placehold.co/600x800/${bg}/ffffff?text=${safe}`;
-    }
-
-    const TEMPLATES = buildTemplates(52);
-    let currentTemplate = null;
-    let model = makeRandomResume();
-
-    /* =========================
-       RENDER FUNCTIONS (fully preserved from your original)
-    ========================= */
-    function renderModern(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-modern" id="resumeThemeRoot">
-          <aside class="side">
-            ${photoHTML("modern")}
-            <div class="r-title" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-            <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            <div class="r-line"></div>
-            <div class="r-small" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            <div class="r-sec">
-              <h4>Skills</h4>
-              <div>
-                ${data.skills.map((s,i)=>`<span class="pill" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-              </div>
-            </div>
-            <div class="r-sec">
-              <h4>Languages</h4>
-              <div class="r-small" contenteditable="true" data-bind="languages">${esc(data.languages.join(" • "))}</div>
-            </div>
-          </aside>
-          <section class="main">
-            <div class="r-sec">
-              <h4>Summary</h4>
-              <div class="r-small" style="font-size:13px;line-height:1.7" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-            </div>
-            <div class="r-sec">
-              <h4>Experience</h4>
-              ${data.experience.map((x,ei)=>`
-                <div style="margin-bottom:10px">
-                  <div style="display:flex;justify-content:space-between;gap:10px">
-                    <div style="font-weight:950" contenteditable="true" data-bind="exp.${ei}.title">${esc(x.title)}</div>
-                    <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                  </div>
-                  <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="exp.${ei}.company">${esc(x.company)}</div>
-                  <ul style="margin:6px 0 0 18px;line-height:1.7">
-                    ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
-            </div>
-            <div class="r-sec">
-              <h4>Education</h4>
-              ${data.education.map((ed,di)=>`
-                <div style="margin-bottom:8px">
-                  <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-                </div>
-              `).join("")}
-            </div>
-          </section>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderExecutive(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-exec" id="resumeThemeRoot">
-          <div class="top">
-            <div class="who">
-              ${photoHTML("exec")}
-              <div>
-                <div class="r-title" style="font-size:28px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-                <div class="r-small">
-                  <span contenteditable="true" data-bind="role">${esc(data.role)}</span>
-                  •
-                  <span contenteditable="true" data-bind="location">${esc(data.location)}</span>
-                </div>
-                <div class="chips">
-                  <span class="chip" contenteditable="true" data-bind="contact">${esc(data.contact)}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Professional Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Core Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Experience</h4>
-            ${data.experience.map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="display:flex;justify-content:space-between;gap:10px">
-                  <div style="font-weight:950" contenteditable="true">
-                    <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                    —
-                    <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                  </div>
-                  <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                </div>
-                <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderCreative(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-creative" id="resumeThemeRoot">
-          <div class="top">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-              <div class="bar"></div>
-              <div class="r-small" style="margin-top:10px" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div class="r-small" style="margin-top:4px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-            ${photoHTML("creative")}
-          </div>
-          <div class="r-sec">
-            <h4>Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Projects / Work</h4>
-            ${data.experience.slice(0,2).map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="font-weight:950" contenteditable="true" data-bind="exp.${ei}.title">${esc(x.title)}</div>
-                <div class="r-small">
-                  <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                  •
-                  <span data-bind="exp.${ei}.time" contenteditable="true">${esc(x.time)}</span>
-                </div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="r-sec">
-            <h4>Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderMinimalist(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-mini" id="resumeThemeRoot">
-          <div class="head">
-            <div class="r-title" style="font-size:28px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-            <div class="r-small" style="margin-top:4px">
-              <span contenteditable="true" data-bind="role">${esc(data.role)}</span>
-              •
-              <span contenteditable="true" data-bind="location">${esc(data.location)}</span>
-            </div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-          </div>
-          <div class="r-sec two">
-            <div>
-              <h4>Summary</h4>
-              <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-              <div class="r-sec">
-                <h4>Experience</h4>
-                ${data.experience.map((x,ei)=>`
-                  <div style="margin-bottom:10px">
-                    <div style="font-weight:950" contenteditable="true">
-                      <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                      —
-                      <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                    </div>
-                    <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                    <ul style="margin:6px 0 0 18px;line-height:1.75">
-                      ${x.points.slice(0,2).map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                    </ul>
-                  </div>
-                `).join("")}
-              </div>
-            </div>
-            <div>
-              <h4>Skills</h4>
-              <div class="chips">
-                ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-              </div>
-              <div class="r-sec">
-                <h4>Education</h4>
-                ${data.education.map((ed,di)=>`
-                  <div style="margin-bottom:8px">
-                    <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                    <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                    <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-                  </div>
-                `).join("")}
-              </div>
-              <div class="r-sec">
-                <h4>Languages</h4>
-                <div class="r-small" contenteditable="true" data-bind="languages">${esc(data.languages.join(" • "))}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderClassic(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-classic" id="resumeThemeRoot">
-          <div class="headline">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            </div>
-            <div class="r-small" style="text-align:right">
-              <div contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Experience</h4>
-            ${data.experience.map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="font-weight:950" contenteditable="true">
-                  <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                  —
-                  <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                </div>
-                <div class="r-small">
-                  <span contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</span>
-                  •
-                  <span contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</span>
-                </div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="r-sec">
-            <h4>Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderDarkSidebar(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-dark" id="resumeThemeRoot">
-          <aside class="side">
-            ${photoHTML("dark")}
-            <div class="r-title" style="font-size:24px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            <div class="r-line" style="background:rgba(255,255,255,.18)"></div>
-            <div class="r-small" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-            <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            <div class="r-sec">
-              <h4 style="opacity:.9">Skills</h4>
-              <div>
-                ${data.skills.map((s,i)=>`<span class="pill" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-              </div>
-            </div>
-            <div class="r-sec">
-              <h4 style="opacity:.9">Languages</h4>
-              <div class="r-small" contenteditable="true" data-bind="languages">${esc(data.languages.join(" • "))}</div>
-            </div>
-          </aside>
-          <section class="main">
-            <div class="r-sec">
-              <h4>Summary</h4>
-              <div class="r-small" style="font-size:13px;line-height:1.7" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-            </div>
-            <div class="r-sec">
-              <h4>Experience</h4>
-              ${data.experience.map((x,ei)=>`
-                <div style="margin-bottom:12px">
-                  <div style="display:flex;justify-content:space-between;gap:10px">
-                    <div style="font-weight:950" contenteditable="true">
-                      <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                      —
-                      <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                    </div>
-                    <div class="r-small" contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</div>
-                  </div>
-                  <ul style="margin:6px 0 0 18px;line-height:1.75">
-                    ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
-            </div>
-            <div class="r-sec">
-              <h4>Education</h4>
-              ${data.education.map((ed,di)=>`
-                <div style="margin-bottom:8px">
-                  <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                  <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-                </div>
-              `).join("")}
-            </div>
-          </section>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderTimeline(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-timeline" id="resumeThemeRoot">
-          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-              <div class="r-small" style="margin-top:10px" contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-            ${photoHTML("creative")}
-          </div>
-          <div class="r-sec">
-            <h4>Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="r-sec">
-            <h4>Experience Timeline</h4>
-            <div class="timeline">
-              ${data.experience.map((x,ei)=>`
-                <div style="margin-bottom:14px">
-                  <div style="font-weight:950">
-                    <span class="dot"></span>
-                    <span contenteditable="true" data-bind="exp.${ei}.title">${esc(x.title)}</span>
-                    —
-                    <span contenteditable="true" data-bind="exp.${ei}.company">${esc(x.company)}</span>
-                  </div>
-                  <div class="r-small" style="margin-top:4px">
-                    <span contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</span>
-                    •
-                    <span contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</span>
-                  </div>
-                  <ul style="margin:6px 0 0 18px;line-height:1.75">
-                    ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="r-sec">
-            <h4>Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function renderBordered(container, data, tpl){
-      container.innerHTML = `
-        <div class="resume-theme t-bordered" id="resumeThemeRoot">
-          <div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start">
-            <div>
-              <div class="r-title" style="font-size:30px" contenteditable="true" data-bind="name">${esc(data.name)}</div>
-              <div class="r-small" style="margin-top:6px" contenteditable="true" data-bind="role">${esc(data.role)}</div>
-            </div>
-            <div class="r-small" style="text-align:right">
-              <div contenteditable="true" data-bind="contact">${esc(data.contact)}</div>
-              <div style="margin-top:6px" contenteditable="true" data-bind="location">${esc(data.location)}</div>
-            </div>
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Summary</h4>
-            <div class="r-small" style="font-size:13px;line-height:1.75" contenteditable="true" data-bind="summary">${esc(data.summary)}</div>
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Skills</h4>
-            <div class="chips">
-              ${data.skills.map((s,i)=>`<span class="chip" contenteditable="true" data-bind="skills.${i}">${esc(s)}</span>`).join("")}
-            </div>
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Experience</h4>
-            ${data.experience.map((x,ei)=>`
-              <div style="margin-bottom:12px">
-                <div style="font-weight:950" contenteditable="true">
-                  <span data-bind="exp.${ei}.title" contenteditable="true">${esc(x.title)}</span>
-                  —
-                  <span data-bind="exp.${ei}.company" contenteditable="true">${esc(x.company)}</span>
-                </div>
-                <div class="r-small" style="margin-top:4px">
-                  <span contenteditable="true" data-bind="exp.${ei}.time">${esc(x.time)}</span>
-                  •
-                  <span contenteditable="true" data-bind="exp.${ei}.location">${esc(x.location || "India")}</span>
-                </div>
-                <ul style="margin:6px 0 0 18px;line-height:1.75">
-                  ${x.points.map((p,pi)=>`<li class="r-small" style="font-size:13px" contenteditable="true" data-bind="expPoint.${ei}.${pi}">${esc(p)}</li>`).join("")}
-                </ul>
-              </div>
-            `).join("")}
-          </div>
-          <div class="boxline">
-            <h4 style="color:var(--accent2)">Education</h4>
-            ${data.education.map((ed,di)=>`
-              <div style="margin-bottom:8px">
-                <div style="font-weight:950" contenteditable="true" data-bind="edu.${di}.degree">${esc(ed.degree)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.school">${esc(ed.school)}</div>
-                <div class="r-small" contenteditable="true" data-bind="edu.${di}.year">${esc(ed.year)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-      applyThemeVars(document.getElementById("resumeThemeRoot"), tpl.theme);
-    }
-
-    function photoHTML(kind){
-      const src = (model.photoUser || "").trim();
-      if(!src) return "";
-      if(kind==="modern") return `<div class="avatar"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="exec") return `<div class="p"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="creative") return `<div class="photo"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="classic") return `<div class="p"><img src="${src}" alt="Profile"/></div>`;
-      if(kind==="dark") return `<div class="avatar"><img src="${src}" alt="Profile"/></div>`;
-      return "";
-    }
-
-    function applyThemeVars(root, theme){
-      if(!root) return;
-      root.classList.add("resume-theme");
-      root.style.setProperty("--accent", theme.accent);
-      root.style.setProperty("--accent2", theme.accent2);
-      root.style.setProperty("--chipBg", theme.chipBg);
-      root.style.setProperty("--chipBorder", theme.chipBorder);
-      root.style.setProperty("--sideBg1", theme.sideBg1);
-      root.style.setProperty("--sideBg2", theme.sideBg2);
-    }
-
-    /* =========================
-       RANDOM DATA GENERATOR
-    ========================= */
-    function makeRandomResume(){
-      const first = pick(["Aarav","Vivaan","Aditya","Kabir","Ishaan","Reyansh","Arjun","Riya","Anaya","Ira","Meera","Sara"]);
-      const last  = pick(["Sharma","Patel","Khan","Mehta","Kapoor","Nair","Gupta","Singh","Joshi","Iyer","Choudhary"]);
-      const role  = pick(["Frontend Developer","JavaScript Developer","UI Developer","Web Developer","React Trainee","Junior Developer"]);
-      const city  = pick(["Pune, India","Mumbai, India","Hyderabad, India","Bengaluru, India","Nagpur, India","Delhi NCR, India"]);
-      const phone = `+91 ${rand(70000,99999)} ${rand(10000,99999)}`;
-      const email = `${first.toLowerCase()}.${last.toLowerCase()}${rand(11,99)}@example.com`;
-      const web   = `${first.toLowerCase()}${last.toLowerCase()}.portfolio.site`;
-      return {
-        name: `${first} ${last}`,
-        role,
-        location: city,
-        contact: `${phone} | ${email} | ${web}`,
-        photoUser: "",
-        summary: pick([
-          "Detail-oriented developer focused on clean UI, responsive layouts, and practical problem-solving. Comfortable with HTML, CSS, JavaScript and modern web workflows.",
-          "Motivated junior developer with strong fundamentals in UI development, component-based thinking, and user-friendly design.",
-          "Entry-level web developer passionate about creating polished interfaces, improving performance, and shipping reliable features with clean code."
-        ]),
-        skills: shuffle([
-          "HTML5","CSS3","JavaScript","Responsive Design",
-          "Bootstrap","Git & GitHub","Basic React","API Basics",
-          "UI/UX Basics","Debugging","Figma Basics","Team Collaboration"
-        ]).slice(0,8),
-        languages: shuffle(["English","Hindi","Marathi","Urdu"]).slice(0,3),
-        experience: [
-          {
-            title: pick(["Web Developer Intern","Frontend Intern","UI Intern","Trainee Developer"]),
-            company: pick(["A2Z IT Hub","TechNova Studio","WebCraft Labs","PixelWave Agency"]),
-            time: pick(["Jan 2026 – Present","Aug 2025 – Jan 2026","Jun 2025 – Dec 2025"]),
-            location: city,
-            points: [
-              "Built responsive UI sections matching a design reference with clean HTML/CSS.",
-              "Implemented template selection flow and direct editor rendering using JavaScript.",
-              "Improved layout consistency with reusable CSS utilities and components."
-            ]
-          },
-          {
-            title: pick(["Support Executive","Customer Support","Operations Associate"]),
-            company: pick(["Telecom Support Center","ServiceDesk India","Customer Care Hub"]),
-            time: pick(["2024 – 2025","2023 – 2024"]),
-            location: city,
-            points: [
-              "Handled customer issues and documented resolutions with clarity and accuracy.",
-              "Maintained quality standards and improved turnaround time on frequent requests."
-            ]
-          }
-        ],
-        education: [
-          { degree: pick(["BBA (CA)","BCA","BSc (Computer Science)"]),
-            school: pick(["XYZ College, Maharashtra","ABC Institute, Pune","City College, Mumbai"]),
-            year: pick(["2023 – 2026","2022 – 2025"])
-          }
-        ]
-      };
-    }
-
-    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-    function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
-    function shuffle(arr){
-      const a=[...arr];
-      for(let i=a.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [a[i],a[j]]=[a[j],a[i]];
-      }
-      return a;
-    }
-    function esc(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    /* =========================
-       CORE UI FUNCTIONS
-    ========================= */
-    function renderTemplateCards(list){
-      templatesGrid.innerHTML = list.map(t => `
-        <article class="card" data-template-id="${t.id}" data-category="${t.category}">
-          <div class="badge">${t.tag}</div>
-          <div class="thumb">
-            <img src="${t.img}" alt="${esc(t.name)}" loading="lazy"/>
-            <div class="hover-text">Use Template</div>
-          </div>
-          <div class="card-body">
-            <h3>${esc(t.name)}</h3>
-            <p>${esc(makeShortDesc(t))}</p>
-            <div class="actions">
-              <button class="btn light" data-action="preview">Preview</button>
-              <button class="btn primary" data-action="use">Use Template</button>
-            </div>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function makeShortDesc(t){
-      const map = {
-        modern:"Clean modern layout with bold accents.",
-        professional:"Strong professional structure for corporate roles.",
-        creative:"Creative design with standout sections.",
-        simple:"Minimal, ATS-friendly and easy to read."
-      };
-      return map[t.category] || "High-quality resume template.";
-    }
-
-    function showTemplates(){
-      templatesView.classList.add("active");
-      editorView.classList.remove("active");
-      backBtn.style.display="none";
-      randomBtn.style.display="none";
-      pdfBtn.style.display="none";
-      window.scrollTo({top:0,behavior:"smooth"});
-    }
-
-    function showEditor(){
-      templatesView.classList.remove("active");
-      editorView.classList.add("active");
-      backBtn.style.display="";
-      randomBtn.style.display="";
-      pdfBtn.style.display="";
-      window.scrollTo({top:0,behavior:"smooth"});
-    }
-
-    function openEditor(template){
-      captureEdits();
-      currentTemplate = template;
-      chosenName.textContent = template.name;
-      chosenTag.textContent = template.tag;
-      chosenImg.src = template.img;
-      rerender();
-      showEditor();
-      saveState();
-    }
-
-    function rerender(){
-      if(!currentTemplate) return;
-      currentTemplate.render(resumeRoot, model, currentTemplate);
-      refreshSkillPanel();
-      // Remove any existing QR container from previous renders (it will be re-added on print)
-      const oldQR = document.getElementById('printQRContainer');
-      if(oldQR) oldQR.remove();
-    }
-
-    function refreshSkillPanel(){
-      skillList.innerHTML = model.skills.map((s,i)=>`
-        <span class="skill-item">
-          <span>${esc(s)}</span>
-          <button class="xbtn" type="button" data-skill-del="${i}">x</button>
-        </span>
-      `).join("");
-    }
-
-    function captureEdits(){
-      if(!resumeRoot) return;
-      const nodes = resumeRoot.querySelectorAll("[data-bind]");
-      nodes.forEach(el=>{
-        const key = el.getAttribute("data-bind");
-        const value = cleanText(el.textContent);
-        if(!key) return;
-        if(key === "name") model.name = value;
-        else if(key === "role") model.role = value;
-        else if(key === "contact") model.contact = value;
-        else if(key === "location") model.location = value;
-        else if(key === "summary") model.summary = value;
-        else if(key === "languages"){
-          model.languages = value.split(/•|,|\|/g).map(s=>s.trim()).filter(Boolean).slice(0,6);
-        }
-        else if(key.startsWith("skills.")){
-          const idx = Number(key.split(".")[1]);
-          if(!Number.isNaN(idx) && model.skills[idx] !== undefined) model.skills[idx] = value;
-        }
-        else if(key.startsWith("exp.")){
-          const parts = key.split(".");
-          const i = Number(parts[1]);
-          const field = parts[2];
-          if(Number.isNaN(i) || !model.experience[i]) return;
-          if(["title","company","time","location"].includes(field)) model.experience[i][field] = value;
-        }
-        else if(key.startsWith("expPoint.")){
-          const parts = key.split(".");
-          const i = Number(parts[1]);
-          const j = Number(parts[2]);
-          if(Number.isNaN(i) || Number.isNaN(j) || !model.experience[i]) return;
-          if(model.experience[i].points[j] === undefined) return;
-          model.experience[i].points[j] = value;
-        }
-        else if(key.startsWith("edu.")){
-          const parts = key.split(".");
-          const i = Number(parts[1]);
-          const field = parts[2];
-          if(Number.isNaN(i) || !model.education[i]) return;
-          if(["degree","school","year"].includes(field)) model.education[i][field] = value;
-        }
-      });
-    }
-
-    function cleanText(t){ return String(t||"").replace(/\s+/g," ").trim(); }
-
-    function readFileAsDataURL(file){
-      return new Promise((resolve,reject)=>{
-        const r = new FileReader();
-        r.onload = ()=>resolve(r.result);
-        r.onerror = reject;
-        r.readAsDataURL(file);
-      });
-    }
-
-    /* =========================
-       QR CODE FEATURE (ADDED - only for print)
-    ========================= */
-function generatePrintQR() {
-  // ... container creation code ...
-
-  // Encode the current resume data into the URL fragment
-  const stateForUrl = {
-    model: model,
-    templateId: currentTemplate.id
-  };
-  const encoded = encodeURIComponent(JSON.stringify(stateForUrl));
-  const url = new URL(window.location.href);
-  url.searchParams.set('data', encoded);
-  url.searchParams.set('print', '1');
-
-  // Generate QR with that URL
-  new QRCode(qrBox, {
-    text: url.toString(),
-    width: 110,
-    height: 110
-  });
-}      
-      // Build a shareable URL with snapshot
-      const snapshotId = 'resume_snapshot_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
-      const snapshotData = {
-        model: JSON.parse(JSON.stringify(model)),
-        templateId: currentTemplate?.id || null,
-        timestamp: Date.now()
-      };
-      try {
-        localStorage.setItem(snapshotId, JSON.stringify(snapshotData));
-        // clean old snapshots
-        const keys = Object.keys(localStorage).filter(k => k.startsWith('resume_snapshot_'));
-        if (keys.length > 5) {
-          keys.sort().slice(0, keys.length - 5).forEach(k => localStorage.removeItem(k));
-        }
-      } catch(e) { console.warn("Snapshot failed", e); }
-      
-      const url = new URL(window.location.href);
-      url.searchParams.set('resumeId', snapshotId);
-      url.searchParams.set('print', '1');
-      
-      
-      if (typeof QRCode !== 'undefined') {
-        try {
-          new QRCode(qrBox, {
-  text: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID",
-  width: 110,
-  height: 110,
-  colorDark: "#0b2540",
-  colorLight: "#ffffff",
-  correctLevel: QRCode.CorrectLevel.H
-});
-        } catch(e) {
-          console.warn("QR generation error", e);
-          qrBox.innerText = '⚠️ QR unavailable';
-        }
-      } else {
-        console.error("QRCode library not loaded");
-        qrBox.innerText = 'QR lib missing';
-      }
-    }
-
-    function prepareAndPrint() {
-      captureEdits();
-      saveState();
-      generatePrintQR();
-      setTimeout(() => {
-        window.print();
-      }, 100);
-    }
-
-    function handleResumeSnapshotFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      const resumeId = params.get('resumeId');
-      const shouldPrint = params.get('print') === '1';
-      if (!resumeId) return false;
-      const raw = localStorage.getItem(resumeId);
-      if (!raw) return false;
-      try {
-        const snapshot = JSON.parse(raw);
-        if (snapshot.model && snapshot.templateId) {
-          model = snapshot.model;
-          const foundTemplate = TEMPLATES.find(t => t.id === snapshot.templateId);
-          if (foundTemplate) {
-            currentTemplate = foundTemplate;
-            window.history.replaceState({}, document.title, window.location.pathname);
-            rerender();
-            showEditor();
-            if (shouldPrint) {
-              setTimeout(() => {
-                generatePrintQR();
-                setTimeout(() => window.print(), 200);
-              }, 300);
-            }
-            return true;
-          }
-        }
-      } catch(e) { console.warn("Restore error", e); }
-      return false;
-    }
-
-    /* =========================
-       EVENT LISTENERS
-    ========================= */
-    filterBtns.forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        filterBtns.forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
-        const filter = btn.dataset.filter;
-        templatesGrid.querySelectorAll(".card").forEach(card=>{
-          const cat = card.dataset.category;
-          card.style.display = (filter === "all" || filter === cat) ? "" : "none";
-        });
-      });
-    });
-
-    templatesGrid.addEventListener("click", (e)=>{
-      const btn = e.target.closest("button");
-      if(!btn) return;
-      const card = e.target.closest(".card");
-      if(!card) return;
-      const id = card.dataset.templateId;
-      const t = TEMPLATES.find(x=>x.id===id);
-      if(!t) return;
-      if(btn.dataset.action === "preview" || btn.dataset.action === "use"){
-        openEditor(t);
-      }
-    });
-
-    backBtn.addEventListener("click", () => showTemplates());
-    randomBtn.addEventListener("click", () => {
-      captureEdits();
-      const keepPhoto = model.photoUser;
-      model = makeRandomResume();
-      model.photoUser = keepPhoto || "";
-      rerender();
-      saveState();
-    });
-    pdfBtn.addEventListener("click", () => prepareAndPrint());
-    changeTemplateBtn.addEventListener("click", () => showTemplates());
-    printBtn2.addEventListener("click", () => prepareAndPrint());
-
-    photoInput.addEventListener("change", async () => {
-      if(!photoInput.files || !photoInput.files[0]) return;
-      captureEdits();
-      const dataUrl = await readFileAsDataURL(photoInput.files[0]);
-      model.photoUser = dataUrl;
-      rerender();
-      saveState();
-    });
-    removePhotoBtn.addEventListener("click", ()=>{
-      captureEdits();
-      model.photoUser = "";
-      rerender();
-      saveState();
-    });
-    clearFileBtn.addEventListener("click", ()=> photoInput.value="");
-
-    addSkillBtn.addEventListener("click", ()=>{
-      const val = (skillInput.value || "").trim();
-      if(!val) return;
-      captureEdits();
-      const parts = val.split(",").map(s=>s.trim()).filter(Boolean);
-      parts.forEach(s=>{
-        if(!model.skills.includes(s)) model.skills.push(s);
-      });
-      skillInput.value="";
-      rerender();
-      saveState();
-    });
-    skillInput.addEventListener("keydown",(e)=>{
-      if(e.key === "Enter"){
-        e.preventDefault();
-        addSkillBtn.click();
-      }
-    });
-    skillList.addEventListener("click",(e)=>{
-      const del = e.target.closest("[data-skill-del]");
-      if(!del) return;
-      const idx = Number(del.dataset.skillDel);
-      if(Number.isNaN(idx)) return;
-      captureEdits();
-      model.skills.splice(idx,1);
-      rerender();
-      saveState();
-    });
-
-    /* =========================
-       THUMBNAIL GENERATION
-    ========================= */
-    function makePreviewData(){
-      return {
-        name: "Aarav Sharma",
-        role: "Frontend Developer",
-        location: "Pune, India",
-        contact: "+91 98765 43210 | aarav@example.com | aarav.portfolio.site",
-        photoUser: "",
-        summary: "Detail-oriented developer focused on clean UI, responsive layouts, and practical problem-solving.",
-        skills: ["HTML5","CSS3","JavaScript","Responsive Design","Bootstrap","Git & GitHub","React Basics","UI Design"],
-        languages: ["English","Hindi","Marathi"],
-        experience: [
-          { title: "Frontend Developer Intern", company: "A2Z IT Hub", time: "Jan 2026 – Present", location: "Pune, India", points: ["Built responsive UI sections.", "Implemented template selection flow."] },
-          { title: "Customer Support Executive", company: "ServiceDesk India", time: "2024 – 2025", location: "Ahmednagar, India", points: ["Handled customer issues.", "Maintained quality standards."] }
-        ],
-        education: [ { degree: "BBA (CA)", school: "XYZ College, Maharashtra", year: "2023 – 2026" } ]
-      };
-    }
-
-    async function generateTemplateThumb(template){
-      const tempWrap = document.createElement("div");
-      tempWrap.style.position = "fixed";
-      tempWrap.style.left = "-99999px";
-      tempWrap.style.top = "0";
-      tempWrap.style.width = "900px";
-      tempWrap.style.minHeight = "1200px";
-      tempWrap.style.background = "#fff";
-      tempWrap.style.zIndex = "-1";
-      document.body.appendChild(tempWrap);
-      const previewData = makePreviewData();
-      template.render(tempWrap, previewData, template);
-      const previewRoot = tempWrap.firstElementChild;
-      if (previewRoot) {
-        previewRoot.style.width = "900px";
-        previewRoot.style.minHeight = "1200px";
-        previewRoot.style.margin = "0";
-        previewRoot.style.transform = "scale(1)";
-        previewRoot.style.transformOrigin = "top left";
-        previewRoot.style.boxShadow = "none";
-        previewRoot.style.borderRadius = "0";
-        previewRoot.style.overflow = "hidden";
-      }
-      try{
-        const canvas = await html2canvas(tempWrap, { scale: 1.4, useCORS: true, backgroundColor: "#ffffff", logging: false });
-        template.img = canvas.toDataURL("image/png");
-      }catch(err){ console.log("Thumb error", err); }
-      document.body.removeChild(tempWrap);
-    }
-
-    async function generateAllTemplateThumbs(){
-      for (let i = 0; i < TEMPLATES.length; i++) {
-        await generateTemplateThumb(TEMPLATES[i]);
-        renderTemplateCards(TEMPLATES);
-      }
-    }
-
-    (async function init(){
-      renderTemplateCards(TEMPLATES);
-      const saved = loadState();
-      if(saved && saved.model) model = saved.model;
-      await generateAllTemplateThumbs();
-      if(saved && saved.currentTemplateId){
-        const found = TEMPLATES.find(t => t.id === saved.currentTemplateId);
-        if(found) openEditor(found);
-        else showTemplates();
-      } else {
-        showTemplates();
-      }
-      if(!handleResumeSnapshotFromURL()) console.log("Ready");
-    })();
-    const qrUrl = "https://drive.google.com/uc?export=download&id=1ABCxyz";
-  </script>
-  <script>
-    if (typeof QRCode !== 'undefined') {
-  try {
-    new QRCode(qrBox, {
-     text: "https://zs3193246-debug.github.io/resume/resume.pdf"
-      width: 110,
-      height: 110,
-      colorDark: '#0b2540',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } catch(e) {
-    console.warn("QR generation error", e);
-    qrBox.innerText = '⚠️ QR unavailable';
+  </head>
+  <body>
+<style>
+/* ===== HERO ===== */
+.hero {
+    background: #0d2b52;
+    color: white;
+    padding: 80px 24px;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.hero-top-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.hamburger,
+.dark-toggle {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #0d2b52;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.hamburger:hover,
+.dark-toggle:hover {
+    background: #e8eef7;
+}
+/* ===== TESTED TEMPLATE SLIDER ===== */
+.tested-templates-section{
+  background:#eef0f3;
+  padding:70px 24px 80px;
+  overflow:hidden;
+}
+
+.tested-head{
+  text-align:center;
+  margin-bottom:38px;
+}
+
+.tested-head h2{
+  font-size:58px;
+  line-height:1.1;
+  font-weight:400;
+  color:#1d2433;
+  margin-bottom:10px;
+}
+
+.tested-head p{
+  font-size:19px;
+  color:#7a85a0;
+}
+
+.tested-slider-wrap{
+  position:relative;
+  max-width:1500px;
+  margin:0 auto;
+  padding:0 70px;
+}
+
+.tested-slider{
+  display:flex;
+  gap:28px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  align-items:flex-start;
+}
+
+.tested-slider::-webkit-scrollbar{
+  display:none;
+}
+
+.tested-card{
+  min-width:260px;
+  min-height: 370px;
+  flex:0 0 260px;
+  text-align:center;
+}
+
+.tested-card h4{
+  font-size:22px;
+  font-weight:500;
+  color:#1e2432;
+  margin-bottom:14px;
+}
+
+.tested-users{
+  font-size:14px;
+  color:#8a93a8;
+  margin:-4px 0 12px;
+}
+
+.tested-img-box{
+  position:relative;
+  background:#fff;
+  border-radius:4px;
+  overflow:hidden;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+.tested-img-box img{
+  width:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.tested-card.featured{
+  min-width:320px;
+  flex:0 0 320px;
+}
+
+.tested-card.featured .tested-img-box img{
+  height:680px;
+}
+
+.view-more-btn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:#2f95ff;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:16px 28px;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 12px 26px rgba(47,149,255,.35);
+  transition:.25s;
+  white-space:nowrap;
+}
+
+.view-more-btn:hover{
+  background:#1f85ef;
+  transform:translate(-50%,-50%) scale(1.03);
+}
+
+.tested-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:64px;
+  height:64px;
+  border:none;
+  border-radius:50%;
+  background:#2f95ff;
+  color:#fff;
+  font-size:32px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 25px rgba(47,149,255,.30);
+  z-index:3;
+  transition:.25s;
+}
+
+.tested-nav:hover{
+  background:#1f85ef;
+}
+
+.tested-prev{
+  left:0;
+}
+
+.tested-next{
+  right:0;
+}
+
+@media (max-width: 1200px){
+  .tested-head h2{
+    font-size:46px;
+  }
+
+  .tested-slider-wrap{
+    padding:0 55px;
+  }
+
+  .tested-card{
+    min-width:230px;
+    flex:0 0 230px;
+  }
+
+  .tested-card.featured{
+    min-width:290px;
+    flex:0 0 290px;
+  }
+
+  .tested-img-box img{
+    height:500px;
+  }
+
+  .tested-card.featured .tested-img-box img{
+    height:610px;
   }
 }
 
+@media (max-width: 768px){
+  .tested-templates-section{
+    padding:50px 16px 60px;
+  }
 
-  </script>
+  .tested-head h2{
+    font-size:34px;
+  }
+
+  .tested-head p{
+    font-size:16px;
+  }
+
+  .tested-slider-wrap{
+    padding:0 45px;
+  }
+
+  .tested-card{
+    min-width:210px;
+    flex:0 0 210px;
+  }
+
+  .tested-card.featured{
+    min-width:250px;
+    flex:0 0 250px;
+  }
+
+  .tested-img-box img{
+    height:420px;
+  }
+
+  .tested-card.featured .tested-img-box img{
+    height:520px;
+  }
+
+  .view-more-btn{
+    font-size:15px;
+    padding:13px 20px;
+  }
+
+  .tested-nav{
+    width:48px;
+    height:48px;
+    font-size:24px;
+  }
+}
+
+.left {
+    flex: 1;
+}
+
+.breadcrumb {
+    margin-bottom: 25px;
+    color: #9bb6d6;
+    font-size: 14px;
+}
+
+.hero h1 {
+    font-size: 64px;
+    margin-bottom: 25px;
+    color: white;
+}
+
+.trust {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+
+.excellent {
+    font-weight: 700;
+}
+
+.stars {
+    color: #00b67a;
+    font-size: 20px;
+}
+
+.reviews-text {
+    color: #d0e1ff;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.import-btn,
+.build-btn {
+    border: none;
+    padding: 16px 35px;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.import-btn {
+    background: #aab7c4;
+    color: #0d2b52;
+}
+
+.build-btn {
+    background: #0f766e;
+    color: white;
+}
+
+.build-btn:hover {
+    background: #0d5f5a;
+}
+
+/* ===== RESUME FORMAT SECTION ===== */
+.resume-format-section {
+    background: #f3f4f6;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #123c6b;
+    margin-bottom: 30px;
+}
+
+.format-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 60px;
+}
+
+.format-filters button {
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid #123c6b;
+    background: white;
+    color: #123c6b;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.format-filters button:hover {
+    background: #123c6b;
+    color: white;
+}
+
+.section-heading {
+    font-size: 32px;
+    font-weight: 700;
+    color: #123c6b;
+    margin-bottom: 15px;
+}
+
+.section-subtext {
+    max-width: 700px;
+    margin: auto;
+    color: #475569;
+    margin-bottom: 60px;
+    line-height: 1.6;
+}
+
+.format-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.format-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: left;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.card-preview {
+    height: 400px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.blue-bg { background: #cfe2f3; }
+.yellow-bg { background: #fce7c8; }
+.red-bg { background: #f8d7da; }
+
+.format-card ul {
+    padding-left: 18px;
+}
+
+.format-card ul li {
+    margin-bottom: 10px;
+    color: #334155;
+    font-size: 14px;
+}
+
+.cta-center {
+    margin-top: 50px;
+}
+
+/* ===== FORMATTING SECTION ===== */
+.formatting-section {
+    background: #f5f7fa;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #123c6b;
+}
+
+.sub-text {
+    max-width: 700px;
+    margin: 15px auto 60px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.formatting-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.resume-visual {
+    background: #9dc3c8;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.resume-visual img {
+    max-width: 100%;
+    height: auto;
+}
+
+.accordion-item {
+    background: #e9ecef;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    padding: 18px;
+    text-align: left;
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    color: #123c6b;
+}
+
+.number {
+    background: #f4b400;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.plus {
+    margin-left: auto;
+    font-size: 20px;
+}
+
+.accordion-body {
+    margin-top: 12px;
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ===== FEATURE SECTION ===== */
+.feature-section {
+    background: #ffffff;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.feature-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #123c6b;
+    margin-bottom: 50px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    text-align: left;
+}
+
+.feature-box {
+    display: flex;
+    gap: 15px;
+}
+
+.feature-box h4 {
+    margin-bottom: 8px;
+    color: #123c6b;
+}
+
+.feature-box p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.rocket { background: #ff7a59; }
+.pencil { background: #9dc3c8; }
+.chart { background: #ffd166; }
+.briefcase { background: #f28482; }
+
+.center-btn {
+    margin-top: 50px;
+}
+
+/* ===== SEARCH CV SECTION ===== */
+.cv-search-section {
+    background: #0d2b52;
+    padding: 70px 20px;
+    border-radius: 20px;
+    margin: 40px auto;
+    max-width: 1200px;
+    color: white;
+    text-align: center;
+}
+
+.cv-container {
+    max-width: 950px;
+    margin: auto;
+}
+
+.top-tabs {
+    margin-bottom: 30px;
+}
+
+.top-tabs button {
+    background: #0f3a6d;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.top-tabs .active {
+    background: white;
+    color: #0d2b52;
+}
+
+.cv-search-section h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+}
+
+.cv-search-section h1 span {
+    color: #ff4d4d;
+}
+
+.subtitle {
+    margin: 15px 0 30px;
+    color: #d0e1ff;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.job-tags button {
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.job-tags button:hover {
+    background: white;
+    color: #0d2b52;
+}
+
+/* ===== START SECTION ===== */
+.start-section {
+    background: #f3f1ed;
+    padding: 80px 20px;
+    margin-top: 60px;
+    border-radius: 40px;
+}
+
+.start-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.left-content h2 {
+    font-size: 32px;
+    color: #123c6b;
+}
+
+.right-cards {
+    display: flex;
+    gap: 30px;
+}
+
+.start-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.start-card h3 {
+    margin-bottom: 15px;
+    color: #123c6b;
+}
+
+.start-card p {
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 20px;
+}
+
+.start-card button {
+    background: #0f766e;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.orange {
+    border-top: 6px solid #ff7a59;
+}
+
+.yellow {
+    border-top: 6px solid #f4b400;
+}
+
+/* ===== TRUST SECTION ===== */
+.trust-section {
+    background: #f2f2f2;
+    padding: 80px 20px;
+}
+
+.trust-title {
+    text-align: center;
+    font-size: 36px;
+    color: #123c6b;
+    margin-bottom: 60px;
+}
+
+.trust-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.trust-left {
+    width: 280px;
+}
+
+.trust-left h3 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.stars-row {
+    background: #00b67a;
+    color: white;
+    padding: 8px 12px;
+    display: inline-block;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.trustpilot-logo {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #00b67a;
+}
+
+.review-slider {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.reviews {
+    display: flex;
+    gap: 30px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.review-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.review-stars {
+    color: #00b67a;
+    margin-bottom: 10px;
+}
+
+.review-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.review-card p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.review-card span {
+    font-size: 13px;
+    color: #777;
+}
+
+.nav-btn {
+    background: white;
+    border: 1px solid #ddd;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.prev {
+    margin-right: 15px;
+}
+
+.next {
+    margin-left: 15px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .hero-content,
+    .trust-wrapper,
+    .start-container {
+        flex-direction: column;
+    }
+
+    .templates-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .format-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .formatting-grid,
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .right-cards {
+        flex-direction: column;
+    }
+
+    .review-slider {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .templates-grid,
+    .format-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .cv-search-section h1 {
+        font-size: 28px;
+    }
+
+    .trust-title {
+        font-size: 28px;
+    }
+}
+
+
+.import-btn,
+.build-btn {
+    border: none;
+    padding: 16px 35px;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.import-btn {
+    background: #aab7c4;
+    color: #0d2b52;
+}
+
+.build-btn {
+    background: #0f766e;
+    color: white;
+}
+
+.build-btn:hover {
+    background: #0d5f5a;
+}
+
+.tamp_butt{
+    text-align: center;
+    margin-top: 40px;
+}
+
+</style>
+
+
+
+
+
+
+
+
+<!-- HERO SECTION -->
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <div class="left">
+            <div class="breadcrumb">
+                AI Resume Builder  »  Resume Templates
+            </div>
+
+            <h1>Free Resume Templates</h1>
+
+            <div class="trust">
+                <span class="excellent">EXCELLENT</span>
+                <div class="stars">★★★★★</div>
+                <span class="reviews">17,483 reviews on <strong>Trustpilot</strong></span>
+            </div>
+
+            <div class="buttons">
+                <button class="import-btn">Import existing resume</button>
+               <a href="resume_tamplate.html"> <button class="build-btn">Build my resume</button></a>
+            </div>
+        </div>
+
+        <div class="right-box">
+            <div class="badge">💻 CREATE ON ANY DEVICE &nbsp; ✨ AI TOOLS</div>
+            <p>
+                Stand out to recruiters with an AI-powered, ATS-friendly resume template 
+                shown to help increase response rates by around 42%‡. 
+                Customize, add ready-made content, & download on any device.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="tested-templates-section" id="testedTemplatesSection">
+  <div class="tested-head">
+    <h2>Tested resume templates</h2>
+    <p>Use the templates recruiters like. Download to Word or PDF.</p>
+  </div>
+
+  <div class="tested-slider-wrap">
+    <button class="tested-nav tested-prev" id="testedPrevBtn" aria-label="Previous">
+      &#10094;
+    </button>
+
+    <div class="tested-slider" id="testedSlider">
+      <!-- card 1 -->
+      <div class="tested-card">
+        <h4>Half Tone</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/security-officer-students-resume-electric-lilac-color.svg" alt="Half Tone Template">
+        </div>
+      </div>
+
+      <!-- card 2 -->
+      <div class="tested-card">
+        <h4>Executive</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/devops-engineer-mid-level-resume-olympic-blue-color.svg" alt="Executive Template">
+        </div>
+      </div>
+
+      <!-- card 3 -->
+      <div class="tested-card">
+        <h4>Statement</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/office-assistant-entry-level-resume-ice-blue-color.svg" alt="Statement Template">
+        </div>
+      </div>
+
+      <!-- card 4 -->
+      <div class="tested-card">
+        <h4>Modern</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/retail-worker-entry-level-resume-sand-dollar-color.svg" alt="Modern Template">
+        </div>
+      </div>
+
+      <!-- card 5 -->
+      <div class="tested-card">
+        <h4>Creative</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/general-laborer-entry-level-resume-outer-space-color.svg" alt="Creative Template">
+        </div>
+      </div>
+
+      <!-- extra templates -->
+      <div class="tested-card">
+        <h4>Classic Pro</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/themes/myperfectresume/img/resume-templates/color-cat/defaults/retail-sales-associate-resume-template.svg" alt="Classic Pro Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Bold Edge</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/498/persistent-resource/tokyo-resume-templates.jpg?v=1656071200" alt="Bold Edge Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Urban Clean</h4>
+        <div class="tested-img-box">
+          <img src="https://resume.io/cdn-cgi/image/width=852,format=auto/assets/templates/amsterdam-4d95083c.jpg" alt="Urban Clean Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Minimal Line</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/488/persistent-resource/dublin-resume-templates.jpg?v=1651663693" alt="Minimal Line Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Blue Note</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/428/persistent-resource/paris-resume-templates.jpg?v=1656071272" alt="Blue Note Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Smart Grid</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/441/persistent-resource/sydney-resume-templates.jpg?v=1651657428" alt="Smart Grid Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Fresh Wave</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/406/persistent-resource/vienna-resume-templates.jpg?v=1656070334" alt="Fresh Wave Template">
+        </div>
+      </div>
+    </div>
+
+    <button class="tested-nav tested-next" id="testedNextBtn" aria-label="Next">
+      &#10095;
+    </button>
+  </div>
+<div class="tamp_butt">
+ <a href="resume_tamplate.html"> <button class="build-btn">More Templates</button></a>
+</div>
+</section>
+<section class="resume-format-section"id="">
+  <div class="container">
+
+    <h2 class="section-title">More ATS-Friendly Resume Templates</h2>
+
+    <div class="format-filters">
+      <button>Creative</button>
+      <button>Modern</button>
+      <button>Traditional</button>
+      <button>Google Docs</button>
+      <button>Chronological</button>
+      <button>Combination</button>
+      <button>Functional</button>
+    </div>
+
+    <h2 class="section-heading">How to Choose the Right Resume Format</h2>
+
+    <p class="section-subtext">
+      Our collection of resume templates includes a variety of resume formats, each designed to match different
+      career stages and highlight your most relevant qualifications.
+    </p>
+
+    <div class="format-cards">
+
+      <!-- CARD 1 -->
+      <div class="format-card">
+        <div class="badge blue">CHRONOLOGICAL RESUME FORMAT</div>
+        <div class="card-preview blue-bg"><img src="https://www.myperfectresume.com/wp-content/uploads/2025/06/chronological.svg"></div>
+
+        <ul>
+          <li>You have consistent career progression in your current industry.</li>
+          <li>You’ve built a professional career within a single field of expertise.</li>
+          <li>You’re applying for a role that is similar to your current position.</li>
+        </ul>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="format-card">
+        <div class="badge ">FUNCTIONAL RESUME FORMAT</div>
+        <div class="card-preview yellow-bg">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2025/06/combinational.svg">
+        </div>
+
+        <ul>
+          <li>You’re changing to a new career path and need to highlight key skills.</li>
+          <li>You have freelance or varied work experience that you want to showcase.</li>
+          <li>You’re applying for a mid-level role that values diverse qualifications.</li>
+        </ul>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="format-card">
+        <div class="badge red">COMBINATION RESUME FORMAT</div>
+        <div class="card-preview red-bg">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2025/06/functional.svg">
+        </div>
+
+        <ul>
+          <li>You’re a recent graduate with limited professional experience to highlight.</li>
+          <li>You have gaps in your work history and want to focus on other areas.</li>
+          <li>You’re applying for an entry-level role that emphasizes skills over experience.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="cta-center">
+     <a href="resume_tamplate.html"> <button class="build-btn">Build my resume</button></a>
+    </div>
+
+  </div>
+</section>
+
+    
+<section class="formatting-section">
+
+  <div class="container">
+
+    <!-- TOP HEADING -->
+    <h2 class="main-title">Resume Formatting Tips for Every Template</h2>
+    <p class="sub-text">
+      Our resume templates are professionally formatted, but you can customize them to match your style.
+      Use these tips to personalize your template while keeping it polished and recruiter-ready.
+    </p>
+
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="formatting-grid">
+
+      <!-- LEFT IMAGE BOX -->
+      <div class="resume-visual"><img src="https://www.myperfectresume.com/wp-content/uploads/2025/12/margins-new-image.svg">
+      </div>
+
+      <!-- RIGHT ACCORDION -->
+      <div class="accordion">
+
+        <div class="accordion-item active">
+          <div class="accordion-header">
+            <span class="number">1</span>
+            <span>Margins</span>
+          </div>
+          <div class="accordion-body">
+            Keep margins between 0.5 inches and 1 inch on all sides. This ensures your resume looks clean,
+            fits on one page (or two for more experienced candidates), and is easy for ATS to parse.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span class="number">2</span>
+            <span>Font size</span>
+            <span class="plus">+</span>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span class="number">3</span>
+            <span>Bullet points</span>
+            <span class="plus">+</span>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span class="number">4</span>
+            <span>Spacing</span>
+            <span class="plus">+</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- FEATURE SECTION -->
+<section class="feature-section">
+
+  <div class="container">
+
+    <h2 class="feature-title">
+      Get Hired Fast With MyPerfectResume’s<br>
+      Free Resume Templates
+    </h2>
+
+    <div class="feature-grid">
+
+      <div class="feature-box">
+        <div class="icon rocket">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/professional-resume.svg">
+        </div>
+        <div>
+          <h4>Professional designs for any industry</h4>
+          <p>From creative resume designs to minimalistic and basic resume templates, we’ve got an ATS-friendly template for any job, industry, or career level.</p>
+        </div>
+      </div>
+
+      <div class="feature-box">
+        <div class="icon pencil">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/prewritten-content.svg">
+        </div>
+        <div>
+          <h4>Easy to customize for any experience level</h4>
+          <p>You can quickly and easily customize your resume template to highlight your skills, experience, and education right from your mobile device or desktop.</p>
+        </div>
+      </div>
+
+      <div class="feature-box">
+        <div class="icon chart">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/prewritten-content.svg">
+        </div>
+        <div>
+          <h4>Instant insights to improve your resume</h4>
+          <p>With our ATS Resume Checker, you’ll get personalized insights and actionable tips to strengthen your resume, increase your score, and stand out to hiring managers.</p>
+        </div>
+      </div>
+
+      <div class="feature-box">
+        <div class="icon briefcase">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/expert-guidance.svg">
+        </div>
+        <div>
+          <h4>Expert tools to do the heavy lifting for you</h4>
+          <p>MyPerfectResume’s AI Resume Builder and templates help you create a standout resume with expert tools, AI-powered content, and easy customization on any device.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="center-btn">
+      <a href="resume_tamplate.html"><button class="build-btn">Build my resume</button></a> 
+    </div>
+
+  </div>
+</section>
+
+
+<section class="cv-search-section">
+  <div class="cv-container">
+
+    <div class="top-tabs">
+     <a href="resume_tamplate.html">
+
+      <button>RESUMES</button>
+      <button>COVER LETTERS</button>
+      <button class="active">CVs</button>
+  </a>
+    </div>
+
+    <h1>
+      Search Professionally Written<br>
+      <span>CV Examples</span>
+    </h1>
+
+    <p class="subtitle">
+      Personalize our CV examples with MyPerfectResume’s free Resume Builder.
+    </p>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search by job title or industry">
+    </div>
+
+    <div class="job-tags">
+      <button>Accountant</button>
+      <button>Assistant Professor</button>
+      <button>Civil Engineer</button>
+      <button>Customer Service Officer</button>
+      <button>Nurse Practitioner</button>
+      <button>Medical Doctor</button>
+      <button>Waitress</button>
+      <button>Registered Nurse</button>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="start-section">
+  <div class="start-container">
+
+    <div class="left-content">
+      <h2>Get Started Creating a<br>Job-Winning Resume</h2>
+    </div>
+
+    <div class="right-cards">
+
+      <div class="start-card orange">
+        <h3>Upload your current resume</h3>
+        <p>Import your details into one of our polished resume templates.</p>
+        <button>Import existing resume</button>
+      </div>
+
+      <div class="start-card yellow">
+        <h3>Create a new resume</h3>
+        <p>Choose one of our resume templates, and we’ll guide you through the rest.</p>
+        <button>Build my resume</button>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<section class="trust-section">
+
+  <div class="container">
+
+    <h2 class="trust-title">Job Seekers Trust Our Resume Templates</h2>
+
+    <div class="trust-wrapper">
+
+      <!-- LEFT TRUSTPILOT BLOCK -->
+      <div class="trust-left">
+        <h3>Excellent</h3>
+
+        <div class="stars-row">
+          ★ ★ ★ ★ ★
+        </div>
+
+        <p>Based on <u>17,483 reviews</u></p>
+
+        <div class="trustpilot-logo">
+          ★ Trustpilot
+        </div>
+      </div>
+
+
+      <!-- RIGHT REVIEWS -->
+      <div class="review-slider">
+
+        <button class="nav-btn prev" onclick="prevReviews()">❮</button>
+
+        <div class="reviews" id="reviewContainer">
+          <!-- Reviews inserted by JS -->
+        </div>
+
+        <button class="nav-btn next" onclick="nextReviews()">❯</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+    
+
+
+<script>const testedSlider = document.getElementById("testedSlider");
+const testedPrevBtn = document.getElementById("testedPrevBtn");
+const testedNextBtn = document.getElementById("testedNextBtn");
+
+if (testedPrevBtn && testedSlider) {
+  testedPrevBtn.addEventListener("click", () => {
+    testedSlider.scrollBy({
+      left: -320,
+      behavior: "smooth"
+    });
+  });
+}
+
+if (testedNextBtn && testedSlider) {
+  testedNextBtn.addEventListener("click", () => {
+    testedSlider.scrollBy({
+      left: 320,
+      behavior: "smooth"
+    });
+  });
+}
+
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".view-more-btn");
+  if(!btn) return;
+
+  const targetSelector = btn.getAttribute("data-scroll-target");
+  const target = document.querySelector(targetSelector);
+
+  if(target){
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  const firstUseBtn = document.querySelector('#templatesGrid .btn.primary[data-action="use"]');
+  if(firstUseBtn){
+    firstUseBtn.focus();
+  }
+});
+
+
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".view-more-btn");
+  if(!btn) return;
+
+  templatesView.classList.add("active");
+  editorView.classList.remove("active");
+
+  backBtn.style.display = "none";
+  randomBtn.style.display = "none";
+  pdfBtn.style.display = "none";
+
+  setTimeout(() => {
+    const target = document.querySelector("#templatesView");
+    if(target){
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }, 100);
+});
+
+const slider = document.getElementById("testedSlider");
+const prevBtn = document.getElementById("testedPrevBtn");
+const nextBtn = document.getElementById("testedNextBtn");
+
+let cardWidth = 320; // template card width + gap
+
+// clones for infinite effect
+const cards = [...slider.children];
+
+cards.forEach(card=>{
+  const clone = card.cloneNode(true);
+  slider.appendChild(clone);
+});
+
+cards.reverse().forEach(card=>{
+  const clone = card.cloneNode(true);
+  slider.insertBefore(clone, slider.firstChild);
+});
+
+// start from middle
+slider.scrollLeft = slider.scrollWidth / 3;
+
+nextBtn.addEventListener("click",()=>{
+  slider.scrollBy({
+    left: cardWidth,
+    behavior:"smooth"
+  });
+});
+
+prevBtn.addEventListener("click",()=>{
+  slider.scrollBy({
+    left: -cardWidth,
+    behavior:"smooth"
+  });
+});
+
+</script>
+
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Cards -->
+      <section class="cards">
+        <div class="card">
+          <h3>Total Users</h3>
+          <p>1,250</p>
+        </div>
+
+        <div class="card">
+          <h3>Total Orders</h3>
+          <p>870</p>
+        </div>
+
+        <div class="card">
+          <h3>Total Sales</h3>
+          <p>₹45,000</p>
+        </div>
+
+        <div class="card">
+          <h3>Pending Reports</h3>
+          <p>18</p>
+        </div>
+      </section>
+
+
+      <!-- Table Section -->
+      <section class="table-section">
+        <div class="section-header">
+          <h2>Recent Orders</h2>
+          <button>View All</button>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Status</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#1001</td>
+                <td>pawan</td>
+                <td>Laptop</td>
+                <td><span class="status completed">Completed</span></td>
+                <td>₹55,000</td>
+              </tr>
+              <tr>
+                <td>#1002</td>
+                <td>abujar</td>
+                <td>Mobile</td>
+                <td><span class="status pending">Pending</span></td>
+                <td>₹18,000</td>
+              </tr>
+              <tr>
+                <td>#1003</td>
+                <td>mahesh</td>
+                <td>Headphones</td>
+                <td><span class="status cancelled">Cancelled</span></td>
+                <td>₹2,500</td>
+              </tr>
+              <tr>
+                <td>#1004</td>
+                <td>zahid</td>
+                <td>Keyboard</td>
+                <td><span class="status completed">Completed</span></td>
+                <td>₹1,800</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
