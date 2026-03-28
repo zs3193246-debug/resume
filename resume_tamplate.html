@@ -1327,7 +1327,7 @@
       if (typeof QRCode !== 'undefined') {
         try {
           new QRCode(qrBox, {
-  text: "https://drive.google.com/uc?export=download&id=YOUR_FILE_ID",
+  text: "https://zs3193246-debug.github.io/resume/resume.pdf",
   width: 110,
   height: 110,
   colorDark: "#0b2540",
@@ -1541,26 +1541,22 @@
       }
       if(!handleResumeSnapshotFromURL()) console.log("Ready");
     })();
-    const qrUrl = "https://drive.google.com/uc?export=download&id=1ABCxyz";
-  </script>
-  <script>
-    if (typeof QRCode !== 'undefined') {
-  try {
-    new QRCode(qrBox, {
-      text: url.toString(),   // ✅ FIXED
-      width: 110,
-      height: 110,
-      colorDark: '#0b2540',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } catch(e) {
-    console.warn("QR generation error", e);
-    qrBox.innerText = '⚠️ QR unavailable';
-  }
+    const qrUrl = "https://zs3193246-debug.github.io/resume/resume.pdf";
+  </script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+function generateQR() {
+  const pdfUrl = "https://zs3193246-debug.github.io/resume/resume.pdf";
+  document.getElementById("qr").innerHTML = "";
+
+  new QRCode(document.getElementById("qr"), {
+    text: pdfUrl,
+    width: 140,
+    height: 140
+  });
 }
 
-text: "https://yourdomain.com/resume.pdf"
-  </script>
+window.onload = generateQR;
+</script>
 </body>
 </html>
