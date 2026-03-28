@@ -1281,27 +1281,36 @@
     /* =========================
        QR CODE FEATURE (ADDED - only for print)
     ========================= */
-    function generatePrintQR() {
-      if (!resumeRoot) return;
-      let qrContainer = document.getElementById('printQRContainer');
-      if (!qrContainer) {
-        qrContainer = document.createElement('div');
-        qrContainer.id = 'printQRContainer';
-        qrContainer.className = 'qr-print-only';
-        resumeRoot.appendChild(qrContainer);
+function handleQRDataFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const encodedData = params.get('data');
+  const shouldPrint = params.get('print') === '1';
+  
+  if (encodedData) {
+    try {
+      const state = JSON.parse(decodeURIComponent(encodedData));
+      model = state.model;
+      const foundTemplate = TEMPLATES.find(t => t.id === state.templateId);
+      if (foundTemplate) {
+        currentTemplate = foundTemplate;
+        rerender();
+        showEditor();
+        // Remove the data from URL after loading
+        window.history.replaceState({}, document.title, window.location.pathname);
+        if (shouldPrint) {
+          setTimeout(() => {
+            generatePrintQR(); // optional, for print version
+            setTimeout(() => window.print(), 500);
+          }, 300);
+        }
+        return true;
       }
-      qrContainer.innerHTML = '';
-      const qrBox = document.createElement('div');
-      qrBox.id = 'dynamicQRBox';
-      qrBox.style.display = 'inline-block';
-      qrBox.style.backgroundColor = '#fff';
-      qrBox.style.padding = '6px';
-      qrBox.style.borderRadius = '8px';
-      const label = document.createElement('div');
-      label.className = 'qr-label';
-      label.innerText = '📄 Scan to download this resume PDF';
-      qrContainer.appendChild(qrBox);
-      qrContainer.appendChild(label);
+    } catch (e) {
+      console.warn("Failed to restore from QR data", e);
+    }
+  }
+  return false;
+}
       
       // Build a shareable URL with snapshot
       const snapshotId = 'resume_snapshot_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
