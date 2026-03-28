@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder — Modern Templates</title>
+    <!-- Fonts & Icons (Poppins via Google Fonts, Font Awesome for social/hamburger) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+
+  </head>
+  <body>
+<style>
+/* ===== HERO ===== */
+.hero {
+    background: #0d2b52;
+    color: white;
+    padding: 80px 24px;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.hero-top-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.hamburger,
+.dark-toggle {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #0d2b52;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.hamburger:hover,
+.dark-toggle:hover {
+    background: #e8eef7;
+}
+/* ===== TESTED TEMPLATE SLIDER ===== */
+.tested-templates-section{
+  background:#eef0f3;
+  padding:70px 24px 80px;
+  overflow:hidden;
+}
+
+.tested-head{
+  text-align:center;
+  margin-bottom:38px;
+}
+
+.tested-head h2{
+  font-size:58px;
+  line-height:1.1;
+  font-weight:400;
+  color:#1d2433;
+  margin-bottom:10px;
+}
+
+.tested-head p{
+  font-size:19px;
+  color:#7a85a0;
+}
+
+.tested-slider-wrap{
+  position:relative;
+  max-width:1500px;
+  margin:0 auto;
+  padding:0 70px;
+}
+
+.tested-slider{
+  display:flex;
+  gap:28px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  align-items:flex-start;
+}
+
+.tested-slider::-webkit-scrollbar{
+  display:none;
+}
+
+.tested-card{
+  min-width:260px;
+  min-height: 370px;
+  flex:0 0 260px;
+  text-align:center;
+}
+
+.tested-card h4{
+  font-size:22px;
+  font-weight:500;
+  color:#1e2432;
+  margin-bottom:14px;
+}
+
+.tested-users{
+  font-size:14px;
+  color:#8a93a8;
+  margin:-4px 0 12px;
+}
+
+.tested-img-box{
+  position:relative;
+  background:#fff;
+  border-radius:4px;
+  overflow:hidden;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+.tested-img-box img{
+  width:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.tested-card.featured{
+  min-width:320px;
+  flex:0 0 320px;
+}
+
+.tested-card.featured .tested-img-box img{
+  height:680px;
+}
+
+.view-more-btn{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:#2f95ff;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:16px 28px;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 12px 26px rgba(47,149,255,.35);
+  transition:.25s;
+  white-space:nowrap;
+}
+
+.view-more-btn:hover{
+  background:#1f85ef;
+  transform:translate(-50%,-50%) scale(1.03);
+}
+
+.tested-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:64px;
+  height:64px;
+  border:none;
+  border-radius:50%;
+  background:#2f95ff;
+  color:#fff;
+  font-size:32px;
+  line-height:1;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 10px 25px rgba(47,149,255,.30);
+  z-index:3;
+  transition:.25s;
+}
+
+.tested-nav:hover{
+  background:#1f85ef;
+}
+
+.tested-prev{
+  left:0;
+}
+
+.tested-next{
+  right:0;
+}
+
+@media (max-width: 1200px){
+  .tested-head h2{
+    font-size:46px;
+  }
+
+  .tested-slider-wrap{
+    padding:0 55px;
+  }
+
+  .tested-card{
+    min-width:230px;
+    flex:0 0 230px;
+  }
+
+  .tested-card.featured{
+    min-width:290px;
+    flex:0 0 290px;
+  }
+
+  .tested-img-box img{
+    height:500px;
+  }
+
+  .tested-card.featured .tested-img-box img{
+    height:610px;
+  }
+}
+
+@media (max-width: 768px){
+  .tested-templates-section{
+    padding:50px 16px 60px;
+  }
+
+  .tested-head h2{
+    font-size:34px;
+  }
+
+  .tested-head p{
+    font-size:16px;
+  }
+
+  .tested-slider-wrap{
+    padding:0 45px;
+  }
+
+  .tested-card{
+    min-width:210px;
+    flex:0 0 210px;
+  }
+
+  .tested-card.featured{
+    min-width:250px;
+    flex:0 0 250px;
+  }
+
+  .tested-img-box img{
+    height:420px;
+  }
+
+  .tested-card.featured .tested-img-box img{
+    height:520px;
+  }
+
+  .view-more-btn{
+    font-size:15px;
+    padding:13px 20px;
+  }
+
+  .tested-nav{
+    width:48px;
+    height:48px;
+    font-size:24px;
+  }
+}
+
+.left {
+    flex: 1;
+}
+
+.breadcrumb {
+    margin-bottom: 25px;
+    color: #9bb6d6;
+    font-size: 14px;
+}
+
+.hero h1 {
+    font-size: 64px;
+    margin-bottom: 25px;
+    color: white;
+}
+
+.trust {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+
+.excellent {
+    font-weight: 700;
+}
+
+.stars {
+    color: #00b67a;
+    font-size: 20px;
+}
+
+.reviews-text {
+    color: #d0e1ff;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.import-btn,
+.build-btn {
+    border: none;
+    padding: 16px 35px;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.import-btn {
+    background: #aab7c4;
+    color: #0d2b52;
+}
+
+.build-btn {
+    background: #0f766e;
+    color: white;
+}
+
+.build-btn:hover {
+    background: #0d5f5a;
+}
+
+/* ===== RESUME FORMAT SECTION ===== */
+.resume-format-section {
+    background: #f3f4f6;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #123c6b;
+    margin-bottom: 30px;
+}
+
+.format-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 60px;
+}
+
+.format-filters button {
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid #123c6b;
+    background: white;
+    color: #123c6b;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.format-filters button:hover {
+    background: #123c6b;
+    color: white;
+}
+
+.section-heading {
+    font-size: 32px;
+    font-weight: 700;
+    color: #123c6b;
+    margin-bottom: 15px;
+}
+
+.section-subtext {
+    max-width: 700px;
+    margin: auto;
+    color: #475569;
+    margin-bottom: 60px;
+    line-height: 1.6;
+}
+
+.format-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.format-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: left;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.card-preview {
+    height: 400px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.blue-bg { background: #cfe2f3; }
+.yellow-bg { background: #fce7c8; }
+.red-bg { background: #f8d7da; }
+
+.format-card ul {
+    padding-left: 18px;
+}
+
+.format-card ul li {
+    margin-bottom: 10px;
+    color: #334155;
+    font-size: 14px;
+}
+
+.cta-center {
+    margin-top: 50px;
+}
+
+/* ===== FORMATTING SECTION ===== */
+.formatting-section {
+    background: #f5f7fa;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.main-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #123c6b;
+}
+
+.sub-text {
+    max-width: 700px;
+    margin: 15px auto 60px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.formatting-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.resume-visual {
+    background: #9dc3c8;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.resume-visual img {
+    max-width: 100%;
+    height: auto;
+}
+
+.accordion-item {
+    background: #e9ecef;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    padding: 18px;
+    text-align: left;
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    color: #123c6b;
+}
+
+.number {
+    background: #f4b400;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.plus {
+    margin-left: auto;
+    font-size: 20px;
+}
+
+.accordion-body {
+    margin-top: 12px;
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ===== FEATURE SECTION ===== */
+.feature-section {
+    background: #ffffff;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.feature-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #123c6b;
+    margin-bottom: 50px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    text-align: left;
+}
+
+.feature-box {
+    display: flex;
+    gap: 15px;
+}
+
+.feature-box h4 {
+    margin-bottom: 8px;
+    color: #123c6b;
+}
+
+.feature-box p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.rocket { background: #ff7a59; }
+.pencil { background: #9dc3c8; }
+.chart { background: #ffd166; }
+.briefcase { background: #f28482; }
+
+.center-btn {
+    margin-top: 50px;
+}
+
+/* ===== SEARCH CV SECTION ===== */
+.cv-search-section {
+    background: #0d2b52;
+    padding: 70px 20px;
+    border-radius: 20px;
+    margin: 40px auto;
+    max-width: 1200px;
+    color: white;
+    text-align: center;
+}
+
+.cv-container {
+    max-width: 950px;
+    margin: auto;
+}
+
+.top-tabs {
+    margin-bottom: 30px;
+}
+
+.top-tabs button {
+    background: #0f3a6d;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.top-tabs .active {
+    background: white;
+    color: #0d2b52;
+}
+
+.cv-search-section h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+}
+
+.cv-search-section h1 span {
+    color: #ff4d4d;
+}
+
+.subtitle {
+    margin: 15px 0 30px;
+    color: #d0e1ff;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.job-tags button {
+    padding: 10px 18px;
+    border-radius: 30px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.job-tags button:hover {
+    background: white;
+    color: #0d2b52;
+}
+
+/* ===== START SECTION ===== */
+.start-section {
+    background: #f3f1ed;
+    padding: 80px 20px;
+    margin-top: 60px;
+    border-radius: 40px;
+}
+
+.start-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.left-content h2 {
+    font-size: 32px;
+    color: #123c6b;
+}
+
+.right-cards {
+    display: flex;
+    gap: 30px;
+}
+
+.start-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.start-card h3 {
+    margin-bottom: 15px;
+    color: #123c6b;
+}
+
+.start-card p {
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 20px;
+}
+
+.start-card button {
+    background: #0f766e;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.orange {
+    border-top: 6px solid #ff7a59;
+}
+
+.yellow {
+    border-top: 6px solid #f4b400;
+}
+
+/* ===== TRUST SECTION ===== */
+.trust-section {
+    background: #f2f2f2;
+    padding: 80px 20px;
+}
+
+.trust-title {
+    text-align: center;
+    font-size: 36px;
+    color: #123c6b;
+    margin-bottom: 60px;
+}
+
+.trust-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.trust-left {
+    width: 280px;
+}
+
+.trust-left h3 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.stars-row {
+    background: #00b67a;
+    color: white;
+    padding: 8px 12px;
+    display: inline-block;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.trustpilot-logo {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #00b67a;
+}
+
+.review-slider {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.reviews {
+    display: flex;
+    gap: 30px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.review-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.review-stars {
+    color: #00b67a;
+    margin-bottom: 10px;
+}
+
+.review-card h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.review-card p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.review-card span {
+    font-size: 13px;
+    color: #777;
+}
+
+.nav-btn {
+    background: white;
+    border: 1px solid #ddd;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.prev {
+    margin-right: 15px;
+}
+
+.next {
+    margin-left: 15px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .hero-content,
+    .trust-wrapper,
+    .start-container {
+        flex-direction: column;
+    }
+
+    .templates-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .format-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .formatting-grid,
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .right-cards {
+        flex-direction: column;
+    }
+
+    .review-slider {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .templates-grid,
+    .format-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .cv-search-section h1 {
+        font-size: 28px;
+    }
+
+    .trust-title {
+        font-size: 28px;
+    }
+}
+
+
+.import-btn,
+.build-btn {
+    border: none;
+    padding: 16px 35px;
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.import-btn {
+    background: #aab7c4;
+    color: #0d2b52;
+}
+
+.build-btn {
+    background: #0f766e;
+    color: white;
+}
+
+.build-btn:hover {
+    background: #0d5f5a;
+}
+
+.tamp_butt{
+    text-align: center;
+    margin-top: 40px;
+}
+
+</style>
+
+
+
+
+
+
+
+
+<!-- HERO SECTION -->
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <div class="left">
+            <div class="breadcrumb">
+                AI Resume Builder  »  Resume Templates
+            </div>
+
+            <h1>Free Resume Templates</h1>
+
+            <div class="trust">
+                <span class="excellent">EXCELLENT</span>
+                <div class="stars">★★★★★</div>
+                <span class="reviews">17,483 reviews on <strong>Trustpilot</strong></span>
+            </div>
+
+            <div class="buttons">
+                <button class="import-btn">Import existing resume</button>
+               <a href="resume_tamplate.html"> <button class="build-btn">Build my resume</button></a>
+            </div>
+        </div>
+
+        <div class="right-box">
+            <div class="badge">💻 CREATE ON ANY DEVICE &nbsp; ✨ AI TOOLS</div>
+            <p>
+                Stand out to recruiters with an AI-powered, ATS-friendly resume template 
+                shown to help increase response rates by around 42%‡. 
+                Customize, add ready-made content, & download on any device.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="tested-templates-section" id="testedTemplatesSection">
+  <div class="tested-head">
+    <h2>Tested resume templates</h2>
+    <p>Use the templates recruiters like. Download to Word or PDF.</p>
+  </div>
+
+  <div class="tested-slider-wrap">
+    <button class="tested-nav tested-prev" id="testedPrevBtn" aria-label="Previous">
+      &#10094;
+    </button>
+
+    <div class="tested-slider" id="testedSlider">
+      <!-- card 1 -->
+      <div class="tested-card">
+        <h4>Half Tone</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/security-officer-students-resume-electric-lilac-color.svg" alt="Half Tone Template">
+        </div>
+      </div>
+
+      <!-- card 2 -->
+      <div class="tested-card">
+        <h4>Executive</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/devops-engineer-mid-level-resume-olympic-blue-color.svg" alt="Executive Template">
+        </div>
+      </div>
+
+      <!-- card 3 -->
+      <div class="tested-card">
+        <h4>Statement</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/office-assistant-entry-level-resume-ice-blue-color.svg" alt="Statement Template">
+        </div>
+      </div>
+
+      <!-- card 4 -->
+      <div class="tested-card">
+        <h4>Modern</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/retail-worker-entry-level-resume-sand-dollar-color.svg" alt="Modern Template">
+        </div>
+      </div>
+
+      <!-- card 5 -->
+      <div class="tested-card">
+        <h4>Creative</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/uploads/2025/08/general-laborer-entry-level-resume-outer-space-color.svg" alt="Creative Template">
+        </div>
+      </div>
+
+      <!-- extra templates -->
+      <div class="tested-card">
+        <h4>Classic Pro</h4>
+        <div class="tested-img-box">
+          <img src="https://www.myperfectresume.com/wp-content/themes/myperfectresume/img/resume-templates/color-cat/defaults/retail-sales-associate-resume-template.svg" alt="Classic Pro Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Bold Edge</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/498/persistent-resource/tokyo-resume-templates.jpg?v=1656071200" alt="Bold Edge Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Urban Clean</h4>
+        <div class="tested-img-box">
+          <img src="https://resume.io/cdn-cgi/image/width=852,format=auto/assets/templates/amsterdam-4d95083c.jpg" alt="Urban Clean Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Minimal Line</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/488/persistent-resource/dublin-resume-templates.jpg?v=1651663693" alt="Minimal Line Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Blue Note</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/428/persistent-resource/paris-resume-templates.jpg?v=1656071272" alt="Blue Note Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Smart Grid</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/441/persistent-resource/sydney-resume-templates.jpg?v=1651657428" alt="Smart Grid Template">
+        </div>
+      </div>
+
+      <div class="tested-card">
+        <h4>Fresh Wave</h4>
+        <div class="tested-img-box">
+          <img src="https://s3.resume.io/cdn-cgi/image/width=852,format=auto/uploads/local_template_image/image/406/persistent-resource/vienna-resume-templates.jpg?v=1656070334" alt="Fresh Wave Template">
+        </div>
+      </div>
+    </div>
+
+    <button class="tested-nav tested-next" id="testedNextBtn" aria-label="Next">
+      &#10095;
+    </button>
+  </div>
+<div class="tamp_butt">
+ <a href="resume_tamplate.html"> <button class="build-btn">More Templates</button></a>
+</div>
+</section>
+<section class="resume-format-section"id="">
+  <div class="container">
+
+    <h2 class="section-title">More ATS-Friendly Resume Templates</h2>
+
+    <div class="format-filters">
+      <button>Creative</button>
+      <button>Modern</button>
+      <button>Traditional</button>
+      <button>Google Docs</button>
+      <button>Chronological</button>
+      <button>Combination</button>
+      <button>Functional</button>
+    </div>
+
+    <h2 class="section-heading">How to Choose the Right Resume Format</h2>
+
+    <p class="section-subtext">
+      Our collection of resume templates includes a variety of resume formats, each designed to match different
+      career stages and highlight your most relevant qualifications.
+    </p>
+
+    <div class="format-cards">
+
+      <!-- CARD 1 -->
+      <div class="format-card">
+        <div class="badge blue">CHRONOLOGICAL RESUME FORMAT</div>
+        <div class="card-preview blue-bg"><img src="https://www.myperfectresume.com/wp-content/uploads/2025/06/chronological.svg"></div>
+
+        <ul>
+          <li>You have consistent career progression in your current industry.</li>
+          <li>You’ve built a professional career within a single field of expertise.</li>
+          <li>You’re applying for a role that is similar to your current position.</li>
+        </ul>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="format-card">
+        <div class="badge ">FUNCTIONAL RESUME FORMAT</div>
+        <div class="card-preview yellow-bg">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2025/06/combinational.svg">
+        </div>
+
+        <ul>
+          <li>You’re changing to a new career path and need to highlight key skills.</li>
+          <li>You have freelance or varied work experience that you want to showcase.</li>
+          <li>You’re applying for a mid-level role that values diverse qualifications.</li>
+        </ul>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="format-card">
+        <div class="badge red">COMBINATION RESUME FORMAT</div>
+        <div class="card-preview red-bg">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2025/06/functional.svg">
+        </div>
+
+        <ul>
+          <li>You’re a recent graduate with limited professional experience to highlight.</li>
+          <li>You have gaps in your work history and want to focus on other areas.</li>
+          <li>You’re applying for an entry-level role that emphasizes skills over experience.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="cta-center">
+     <a href="resume_tamplate.html"> <button class="build-btn">Build my resume</button></a>
+    </div>
+
+  </div>
+</section>
+
+    
+<section class="formatting-section">
+
+  <div class="container">
+
+    <!-- TOP HEADING -->
+    <h2 class="main-title">Resume Formatting Tips for Every Template</h2>
+    <p class="sub-text">
+      Our resume templates are professionally formatted, but you can customize them to match your style.
+      Use these tips to personalize your template while keeping it polished and recruiter-ready.
+    </p>
+
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="formatting-grid">
+
+      <!-- LEFT IMAGE BOX -->
+      <div class="resume-visual"><img src="https://www.myperfectresume.com/wp-content/uploads/2025/12/margins-new-image.svg">
+      </div>
+
+      <!-- RIGHT ACCORDION -->
+      <div class="accordion">
+
+        <div class="accordion-item active">
+          <div class="accordion-header">
+            <span class="number">1</span>
+            <span>Margins</span>
+          </div>
+          <div class="accordion-body">
+            Keep margins between 0.5 inches and 1 inch on all sides. This ensures your resume looks clean,
+            fits on one page (or two for more experienced candidates), and is easy for ATS to parse.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span class="number">2</span>
+            <span>Font size</span>
+            <span class="plus">+</span>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span class="number">3</span>
+            <span>Bullet points</span>
+            <span class="plus">+</span>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span class="number">4</span>
+            <span>Spacing</span>
+            <span class="plus">+</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- FEATURE SECTION -->
+<section class="feature-section">
+
+  <div class="container">
+
+    <h2 class="feature-title">
+      Get Hired Fast With MyPerfectResume’s<br>
+      Free Resume Templates
+    </h2>
+
+    <div class="feature-grid">
+
+      <div class="feature-box">
+        <div class="icon rocket">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/professional-resume.svg">
+        </div>
+        <div>
+          <h4>Professional designs for any industry</h4>
+          <p>From creative resume designs to minimalistic and basic resume templates, we’ve got an ATS-friendly template for any job, industry, or career level.</p>
+        </div>
+      </div>
+
+      <div class="feature-box">
+        <div class="icon pencil">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/prewritten-content.svg">
+        </div>
+        <div>
+          <h4>Easy to customize for any experience level</h4>
+          <p>You can quickly and easily customize your resume template to highlight your skills, experience, and education right from your mobile device or desktop.</p>
+        </div>
+      </div>
+
+      <div class="feature-box">
+        <div class="icon chart">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/prewritten-content.svg">
+        </div>
+        <div>
+          <h4>Instant insights to improve your resume</h4>
+          <p>With our ATS Resume Checker, you’ll get personalized insights and actionable tips to strengthen your resume, increase your score, and stand out to hiring managers.</p>
+        </div>
+      </div>
+
+      <div class="feature-box">
+        <div class="icon briefcase">
+            <img src="https://www.myperfectresume.com/wp-content/uploads/2024/03/expert-guidance.svg">
+        </div>
+        <div>
+          <h4>Expert tools to do the heavy lifting for you</h4>
+          <p>MyPerfectResume’s AI Resume Builder and templates help you create a standout resume with expert tools, AI-powered content, and easy customization on any device.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="center-btn">
+      <a href="resume_tamplate.html"><button class="build-btn">Build my resume</button></a> 
+    </div>
+
+  </div>
+</section>
+
+
+<section class="cv-search-section">
+  <div class="cv-container">
+
+    <div class="top-tabs">
+     <a href="resume_tamplate.html">
+
+      <button>RESUMES</button>
+      <button>COVER LETTERS</button>
+      <button class="active">CVs</button>
+  </a>
+    </div>
+
+    <h1>
+      Search Professionally Written<br>
+      <span>CV Examples</span>
+    </h1>
+
+    <p class="subtitle">
+      Personalize our CV examples with MyPerfectResume’s free Resume Builder.
+    </p>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search by job title or industry">
+    </div>
+
+    <div class="job-tags">
+      <button>Accountant</button>
+      <button>Assistant Professor</button>
+      <button>Civil Engineer</button>
+      <button>Customer Service Officer</button>
+      <button>Nurse Practitioner</button>
+      <button>Medical Doctor</button>
+      <button>Waitress</button>
+      <button>Registered Nurse</button>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="start-section">
+  <div class="start-container">
+
+    <div class="left-content">
+      <h2>Get Started Creating a<br>Job-Winning Resume</h2>
+    </div>
+
+    <div class="right-cards">
+
+      <div class="start-card orange">
+        <h3>Upload your current resume</h3>
+        <p>Import your details into one of our polished resume templates.</p>
+        <button>Import existing resume</button>
+      </div>
+
+      <div class="start-card yellow">
+        <h3>Create a new resume</h3>
+        <p>Choose one of our resume templates, and we’ll guide you through the rest.</p>
+        <button>Build my resume</button>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<section class="trust-section">
+
+  <div class="container">
+
+    <h2 class="trust-title">Job Seekers Trust Our Resume Templates</h2>
+
+    <div class="trust-wrapper">
+
+      <!-- LEFT TRUSTPILOT BLOCK -->
+      <div class="trust-left">
+        <h3>Excellent</h3>
+
+        <div class="stars-row">
+          ★ ★ ★ ★ ★
+        </div>
+
+        <p>Based on <u>17,483 reviews</u></p>
+
+        <div class="trustpilot-logo">
+          ★ Trustpilot
+        </div>
+      </div>
+
+
+      <!-- RIGHT REVIEWS -->
+      <div class="review-slider">
+
+        <button class="nav-btn prev" onclick="prevReviews()">❮</button>
+
+        <div class="reviews" id="reviewContainer">
+          <!-- Reviews inserted by JS -->
+        </div>
+
+        <button class="nav-btn next" onclick="nextReviews()">❯</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+    
+
+
+<script>const testedSlider = document.getElementById("testedSlider");
+const testedPrevBtn = document.getElementById("testedPrevBtn");
+const testedNextBtn = document.getElementById("testedNextBtn");
+
+if (testedPrevBtn && testedSlider) {
+  testedPrevBtn.addEventListener("click", () => {
+    testedSlider.scrollBy({
+      left: -320,
+      behavior: "smooth"
+    });
+  });
+}
+
+if (testedNextBtn && testedSlider) {
+  testedNextBtn.addEventListener("click", () => {
+    testedSlider.scrollBy({
+      left: 320,
+      behavior: "smooth"
+    });
+  });
+}
+
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".view-more-btn");
+  if(!btn) return;
+
+  const targetSelector = btn.getAttribute("data-scroll-target");
+  const target = document.querySelector(targetSelector);
+
+  if(target){
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  const firstUseBtn = document.querySelector('#templatesGrid .btn.primary[data-action="use"]');
+  if(firstUseBtn){
+    firstUseBtn.focus();
+  }
+});
+
+
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".view-more-btn");
+  if(!btn) return;
+
+  templatesView.classList.add("active");
+  editorView.classList.remove("active");
+
+  backBtn.style.display = "none";
+  randomBtn.style.display = "none";
+  pdfBtn.style.display = "none";
+
+  setTimeout(() => {
+    const target = document.querySelector("#templatesView");
+    if(target){
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }, 100);
+});
+
+const slider = document.getElementById("testedSlider");
+const prevBtn = document.getElementById("testedPrevBtn");
+const nextBtn = document.getElementById("testedNextBtn");
+
+let cardWidth = 320; // template card width + gap
+
+// clones for infinite effect
+const cards = [...slider.children];
+
+cards.forEach(card=>{
+  const clone = card.cloneNode(true);
+  slider.appendChild(clone);
+});
+
+cards.reverse().forEach(card=>{
+  const clone = card.cloneNode(true);
+  slider.insertBefore(clone, slider.firstChild);
+});
+
+// start from middle
+slider.scrollLeft = slider.scrollWidth / 3;
+
+nextBtn.addEventListener("click",()=>{
+  slider.scrollBy({
+    left: cardWidth,
+    behavior:"smooth"
+  });
+});
+
+prevBtn.addEventListener("click",()=>{
+  slider.scrollBy({
+    left: -cardWidth,
+    behavior:"smooth"
+  });
+});
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Cards -->
+      <section class="cards">
+        <div class="card">
+          <h3>Total Users</h3>
+          <p>1,250</p>
+        </div>
+
+        <div class="card">
+          <h3>Total Orders</h3>
+          <p>870</p>
+        </div>
+
+        <div class="card">
+          <h3>Total Sales</h3>
+          <p>₹45,000</p>
+        </div>
+
+        <div class="card">
+          <h3>Pending Reports</h3>
+          <p>18</p>
+        </div>
+      </section>
+
+
+      <!-- Table Section -->
+      <section class="table-section">
+        <div class="section-header">
+          <h2>Recent Orders</h2>
+          <button>View All</button>
+        </div>
+
+        <div class="table-box">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Status</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#1001</td>
+                <td>pawan</td>
+                <td>Laptop</td>
+                <td><span class="status completed">Completed</span></td>
+                <td>₹55,000</td>
+              </tr>
+              <tr>
+                <td>#1002</td>
+                <td>abujar</td>
+                <td>Mobile</td>
+                <td><span class="status pending">Pending</span></td>
+                <td>₹18,000</td>
+              </tr>
+              <tr>
+                <td>#1003</td>
+                <td>mahesh</td>
+                <td>Headphones</td>
+                <td><span class="status cancelled">Cancelled</span></td>
+                <td>₹2,500</td>
+              </tr>
+              <tr>
+                <td>#1004</td>
+                <td>zahid</td>
+                <td>Keyboard</td>
+                <td><span class="status completed">Completed</span></td>
+                <td>₹1,800</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
