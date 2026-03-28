@@ -1281,37 +1281,26 @@
     /* =========================
        QR CODE FEATURE (ADDED - only for print)
     ========================= */
-function handleQRDataFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const encodedData = params.get('data');
-  const shouldPrint = params.get('print') === '1';
-  
-  if (encodedData) {
-    try {
-      const state = JSON.parse(decodeURIComponent(encodedData));
-      model = state.model;
-      const foundTemplate = TEMPLATES.find(t => t.id === state.templateId);
-      if (foundTemplate) {
-        currentTemplate = foundTemplate;
-        rerender();
-        showEditor();
-        // Remove the data from URL after loading
-        window.history.replaceState({}, document.title, window.location.pathname);
-        if (shouldPrint) {
-          setTimeout(() => {
-            generatePrintQR(); // optional, for print version
-            setTimeout(() => window.print(), 500);
-          }, 300);
-        }
-        return true;
-      }
-    } catch (e) {
-      console.warn("Failed to restore from QR data", e);
-    }
-  }
-  return false;
-}
-      
+function generatePrintQR() {
+  // ... container creation code ...
+
+  // Encode the current resume data into the URL fragment
+  const stateForUrl = {
+    model: model,
+    templateId: currentTemplate.id
+  };
+  const encoded = encodeURIComponent(JSON.stringify(stateForUrl));
+  const url = new URL(window.location.href);
+  url.searchParams.set('data', encoded);
+  url.searchParams.set('print', '1');
+
+  // Generate QR with that URL
+  new QRCode(qrBox, {
+    text: url.toString(),
+    width: 110,
+    height: 110
+  });
+}      
       // Build a shareable URL with snapshot
       const snapshotId = 'resume_snapshot_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
       const snapshotData = {
@@ -1556,7 +1545,7 @@ function handleQRDataFromURL() {
     if (typeof QRCode !== 'undefined') {
   try {
     new QRCode(qrBox, {
-     text: "https://yourdomain.com/resume.pdf"
+     text: "https://zs3193246-debug.github.io/resume/resume.pdf"
       width: 110,
       height: 110,
       colorDark: '#0b2540',
